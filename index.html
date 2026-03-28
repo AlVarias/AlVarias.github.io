@@ -59,7 +59,7 @@
           email: "allenvarias@gmail.com",
           github: "https://github.com/AlVarias",
           linkedin: "https://linkedin.com/in/allen-albert-varias/",
-          avatar: "https://imgur.com/gallery/just-me-VvBZ6vx#m3yK3n7", // REMEMBER TO REPLACE THIS WITH YOUR LIVE IMAGE URL!
+          avatar: "https://i.imgur.com/VvBZ6vx.jpeg", 
         };
 
         const SKILLS = [
@@ -137,7 +137,7 @@
             setAnalysisResult(null);
 
             // IMPORTANT: Place your actual Google Gemini API key inside the quotes below!
-            const apiKey = "AIzaSyDqeaUXtbBWZn08Lw2U3wD-kESmgU4mwyA"; 
+            const apiKey = ""; 
             const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${apiKey}`;
 
             const profileContext = {
@@ -385,7 +385,7 @@
                   <a href={PERSONAL_INFO.linkedin} className="hover:text-blue-400 transition-colors"><LinkedinIcon className="w-5 h-5" /></a>
                   <a href={`mailto:${PERSONAL_INFO.email}`} className="hover:text-blue-400 transition-colors"><MailIcon className="w-5 h-5" /></a>
                 </div>
-                <p className="text-sm font-mono">Designed & Built for Systems Engineering</p>
+                <p className="text-sm font-mono">Designed and built for Allen Albert T. Varias</p>
               </footer>
 
               {isJobFitModalOpen && (
