@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Allen Albert T. Varias - Portfolio</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- React & ReactDOM -->
+    <script src="https://unpkg.com/react@18/umd/react.production.min.js" crossorigin></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js" crossorigin></script>
+    <!-- Babel for compiling JSX in the browser -->
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    
+    <style>
+      /* Smooth scrolling */
+      html { scroll-behavior: smooth; }
+      /* Custom Animations */
+      @keyframes spin { 100% { transform: rotate(360deg); } }
+      .animate-spin { animation: spin 1s linear infinite; }
+      @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+      .animate-in { animation: fadeIn 0.5s ease-out forwards; }
+    </style>
+</head>
+<body>
+    <div id="root"></div>
+
+    <script type="text/babel">
+        const { useState, useEffect } = React;
+
+        // --- INLINE SVG ICONS (Replacing Lucide-React for standalone HTML) ---
+        const Icon = ({ children, className }) => (
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}>
+                {children}
+            </svg>
+        );
+        const TerminalIcon = ({ className }) => <Icon className={className}><polyline points="4 17 10 11 4 5"></polyline><line x1="12" y1="19" x2="20" y2="19"></line></Icon>;
+        const ServerIcon = ({ className }) => <Icon className={className}><rect x="2" y="2" width="20" height="8" rx="2" ry="2"></rect><rect x="2" y="14" width="20" height="8" rx="2" ry="2"></rect><line x1="6" y1="6" x2="6.01" y2="6"></line><line x1="6" y1="18" x2="6.01" y2="18"></line></Icon>;
+        const CloudIcon = ({ className }) => <Icon className={className}><path d="M17.5 19H9a7 7 0 1 1 6.71-9h1.79a4.5 4.5 0 1 1 0 9Z"></path></Icon>;
+        const CpuIcon = ({ className }) => <Icon className={className}><rect x="4" y="4" width="16" height="16" rx="2" ry="2"></rect><rect x="9" y="9" width="6" height="6"></rect><line x1="9" y1="1" x2="9" y2="4"></line><line x1="15" y1="1" x2="15" y2="4"></line><line x1="9" y1="20" x2="9" y2="23"></line><line x1="15" y1="20" x2="15" y2="23"></line><line x1="20" y1="9" x2="23" y2="9"></line><line x1="20" y1="14" x2="23" y2="14"></line><line x1="1" y1="9" x2="4" y2="9"></line><line x1="1" y1="14" x2="4" y2="14"></line></Icon>;
+        const LayersIcon = ({ className }) => <Icon className={className}><polygon points="12 2 2 7 12 12 22 7 12 2"></polygon><polyline points="2 17 12 22 22 17"></polyline><polyline points="2 12 12 17 22 12"></polyline></Icon>;
+        const CodeIcon = ({ className }) => <Icon className={className}><polyline points="16 18 22 12 16 6"></polyline><polyline points="8 6 2 12 8 18"></polyline></Icon>;
+        const GithubIcon = ({ className }) => <Icon className={className}><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></Icon>;
+        const LinkedinIcon = ({ className }) => <Icon className={className}><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path><rect x="2" y="9" width="4" height="12"></rect><circle cx="4" cy="4" r="2"></circle></Icon>;
+        const MailIcon = ({ className }) => <Icon className={className}><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></Icon>;
+        const ExternalLinkIcon = ({ className }) => <Icon className={className}><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></Icon>;
+        const ChevronRightIcon = ({ className }) => <Icon className={className}><polyline points="9 18 15 12 9 6"></polyline></Icon>;
+        const MenuIcon = ({ className }) => <Icon className={className}><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></Icon>;
+        const XIcon = ({ className }) => <Icon className={className}><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></Icon>;
+        const SparklesIcon = ({ className }) => <Icon className={className}><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"></path><path d="M5 3v4"></path><path d="M19 17v4"></path><path d="M3 5h4"></path><path d="M17 19h4"></path></Icon>;
+        const Loader2Icon = ({ className }) => <Icon className={className}><path d="M21 12a9 9 0 1 1-6.219-8.56"></path></Icon>;
+
+        // --- DATA ---
+        const PERSONAL_INFO = {
+          name: "Allen Albert T. Varias",
+          title: "Systems Engineer",
+          subtitle: "Specialized in designing and managing robust Linux environments.",
+          about: "With over 7 years of experience in enterprise-level IT infrastructure, I am a hard-working and committed systems engineer eager to make a positive contribution to the customer experience. My technical foundation is rooted in Red Hat Enterprise Linux (RHEL), Ansible automation, and Cloud Orchestration. I specialize in building stable, scalable, and automated environments, from rack-and-stack deployments to high-level system architecture. I am currently based in Auckland, NZ, holding an Open Work Visa valid until Dec 2027.",
+          email: "allenvarias@gmail.com",
+          github: "https://github.com/AlVarias",
+          linkedin: "https://linkedin.com/in/allen-albert-varias/",
+          avatar: "https://imgur.com/gallery/just-me-VvBZ6vx", // REMEMBER TO REPLACE THIS WITH YOUR LIVE IMAGE URL!
+        };
+
+        const SKILLS = [
+          { category: "Cloud & Virtualization (Linux Focus)", items: ["Red Hat OpenStack", "Cloud-base Setup", "Virtualization", "Linux Servers"], icon: <CloudIcon className="w-6 h-6 text-blue-400" /> },
+          { category: "Hardware & Infrastructure", items: ["Rack and Stack", "Power & Network Cabling", "Server Deployment", "Computer System Integration"], icon: <ServerIcon className="w-6 h-6 text-purple-400" /> },
+          { category: "Automation & DevOps", items: ["Ansible Playbooks", "Shell Scripting", "Software Application Building"], icon: <CodeIcon className="w-6 h-6 text-emerald-400" /> },
+          { category: "Networking & Security", items: ["Network Infrastructure", "Network Documentation", "Redundancy Strategies"], icon: <TerminalIcon className="w-6 h-6 text-yellow-400" /> },
+          { category: "Operations & ITSM", items: ["Systems Troubleshooting", "Root Cause Analysis (RCA)", "Hardware/Software Acceptance Tests", "Project Team Leading"], icon: <CpuIcon className="w-6 h-6 text-red-400" /> },
+        ];
+
+        const PROJECTS = [
+          { title: "vDNS Modernization & Expansion", description: "Technical Lead for major telecommunications projects including vDNS Modernization 2021, vDNS Expansion 2022, and vDNS 10G Enhancement. Co-authored key documentation such as Low-Level Designs (LLD) and Root-Cause Analysis (RCA).", techStack: ["Red Hat OpenStack", "Ansible", "Linux"], link: "#", github: "https://github.com/AlVarias" },
+          { title: "House of Representatives VoIP & Wi-Fi", description: "Designed, installed, and integrated server infrastructure, system security, and redundancy strategies for the Philippine House of Representatives.", techStack: ["Linux", "Networking", "System Security"], link: "#", github: "https://github.com/AlVarias" },
+          { title: "Custom AAA & Digital Signage Systems", description: "Developed and maintained custom Linux-based AAA (Authentication, Authorization, and Accounting) systems and digital signage solutions for FilAsia Systems Tech.", techStack: ["Linux", "Shell Scripting", "Systems Dev"], link: "#", github: "https://github.com/AlVarias" },
+          { title: "Public Sector Wi-Fi Monetization", description: "Key engineer on the Greenfield Wi-Fi Monetization Project and Wireless Access Point on Governance in Cavite Project, deploying robust network infrastructure and conducting client training.", techStack: ["Network Infrastructure", "Linux", "Integration"], link: "#", github: "https://github.com/AlVarias" }
+        ];
+
+        const EXPERIENCE = [
+          { role: "Assistant Pharmacy Supervisor", company: "CHEMIST WAREHOUSE - Auckland, NZ", period: "May 2024 - Present (Promoted to 2IC / Assistant Manager: Oct 2025 - Dec 2025)", achievements: ["Operational Leadership: Manage high-volume workflows and team coordination in a strictly regulated clinical environment.", "Technical Troubleshooting: On-site lead for resolving POS and networking disruptions, ensuring service continuity for patient-facing systems."] },
+          { role: "Technical Consultant", company: "SYSTEMETHIX Limited - Onehunga, NZ", period: "Aug 2023 - Mar 2024", achievements: ["BAU resource for ongoing Managed Services customers, proactively addressing tickets and providing on-call support.", "Managed customer queries efficiently, maintaining comprehensive lists and timelines to consistently meet and exceed SLAs.", "Implemented project management methodologies, including meticulous documentation.", "Collaborated with technical staff to resolve and escalate complex issues, conducted routine health checks, and contributed to automation.", "Performed Field Engineer duties for on-site hardware replacements."] },
+          { role: "Systems Engineer", company: "ANTLABS - Singapore | Penbrothers, Philippines", period: "Feb 2023 - Apr 2023", achievements: ["Analyzed technical problems on Linux based servers down to problem isolation and acted as part of the technical escalation path for product support.", "Created automation using Ansible-playbooks for client queries and project implementations.", "Performed operation maintenance, investigation, and recovery of services to functional state on Linux operated servers.", "Performed shell scripting and software application building/maintenance on Linux servers."] },
+          { role: "Associate Systems Engineer II", company: "SMS Global Technologies Inc. - Ortigas City, Philippines", period: "Oct 2019 - Feb 2023", achievements: ["Served as Technical Lead for Linux and Red Hat OpenStack projects: vDNS Modernization 2021, vDNS Expansion 2022, and vDNS 10G Enhancement.", "Created project-specific Ansible-playbooks to automate installation and configuration on Linux systems.", "Provided technical input and co-authored key documentation including LLD, RCA, and technical proposals.", "Performed hardware/software acceptance tests, IoT tests, and provided on-call support for high severity service impact issues."] },
+          { role: "Systems Engineer / Developer", company: "FilAsia Systems Tech, Inc. | Playqube I.T. Solutions - Makati City, Philippines", period: "Apr 2017 - Oct 2019", achievements: ["Involved in major projects including Governance in Cavite WAP, Greenfield Wi-Fi Monetization, PlayQube TV Box, and House of Representatives VoIP & Wi-Fi.", "Developed a custom Linux-based AAA system and digital signage system.", "Integrated systems including OS installation, application software, systems security, backup, and redundancy strategies.", "Conducted product orientation and training for clients and partners on existing company systems."] }
+        ];
+
+        const EDUCATION = [
+          { degree: "Bachelor of Science in Computer Engineering", school: "Rogationist College", period: "2012 - 2017", details: "Specialized in Arduino Robotics." }
+        ];
+
+        // --- COMPONENTS ---
+        const App = () => {
+          const [isMenuOpen, setIsMenuOpen] = useState(false);
+          const [activeSection, setActiveSection] = useState('home');
+          const [imageFailed, setImageFailed] = useState(false);
+
+          // Gemini API States
+          const [isJobFitModalOpen, setIsJobFitModalOpen] = useState(false);
+          const [jobDescInput, setJobDescInput] = useState('');
+          const [isAnalyzing, setIsAnalyzing] = useState(false);
+          const [analysisResult, setAnalysisResult] = useState(null);
+          const [apiError, setApiError] = useState('');
+
+          useEffect(() => {
+            const handleScroll = () => {
+              const sections = ['home', 'about', 'projects', 'experience', 'education', 'contact'];
+              const scrollPosition = window.scrollY + 100;
+
+              for (const section of sections) {
+                const element = document.getElementById(section);
+                if (element && scrollPosition >= element.offsetTop && scrollPosition < element.offsetTop + element.offsetHeight) {
+                  setActiveSection(section);
+                }
+              }
+            };
+            window.addEventListener('scroll', handleScroll);
+            return () => window.removeEventListener('scroll', handleScroll);
+          }, []);
+
+          const scrollTo = (id) => {
+            setIsMenuOpen(false);
+            const element = document.getElementById(id);
+            if (element) {
+              window.scrollTo({
+                top: element.offsetTop - 64,
+                behavior: 'smooth'
+              });
+            }
+          };
+
+          const handleAnalyzeJobFit = async () => {
+            if (!jobDescInput.trim()) return;
+            
+            setIsAnalyzing(true);
+            setApiError('');
+            setAnalysisResult(null);
+
+            // IMPORTANT: Place your actual Google Gemini API key inside the quotes below!
+            const apiKey = "AIzaSyDqeaUXtbBWZn08Lw2U3wD-kESmgU4mwyA"; 
+            const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${apiKey}`;
+
+            const profileContext = {
+              name: PERSONAL_INFO.name,
+              about: PERSONAL_INFO.about,
+              skills: SKILLS.map(s => s.category + ": " + s.items.join(", ")),
+              experience: EXPERIENCE.map(e => `${e.role} at ${e.company}. Highlights: ${e.achievements.join(" ")}`),
+              projects: PROJECTS.map(p => `${p.title}: ${p.description}`)
+            };
+
+            const systemInstruction = `You are an AI recruiter assistant helping evaluate Allen Albert T. Varias's fit for job descriptions. 
+            Here is Allen's resume context: ${JSON.stringify(profileContext)}. 
+            Analyze the provided job description and evaluate how well Allen's specific Linux, OpenStack, Infrastructure, and Automation experience matches it. Be objective, professional, and highlight specific overlaps. Provide your response strictly adhering to the JSON schema.`;
+
+            const payload = {
+              systemInstruction: { parts: [{ text: systemInstruction }] },
+              contents: [{ parts: [{ text: `Job Description:\n${jobDescInput}` }] }],
+              generationConfig: {
+                responseMimeType: "application/json",
+                responseSchema: {
+                  type: "OBJECT",
+                  properties: {
+                    matchPercentage: { type: "INTEGER", description: "Estimated fit percentage (0-100)" },
+                    summary: { type: "STRING", description: "A 2-3 sentence summary of why Allen is a good fit for this role." },
+                    keyStrengths: {
+                      type: "ARRAY",
+                      items: { type: "STRING" },
+                      description: "3-4 bullet points specifically mapping Allen's past projects/skills to the job requirements."
+                    }
+                  },
+                  required: ["matchPercentage", "summary", "keyStrengths"]
+                }
+              }
+            };
+
+            const fetchWithRetry = async (retries = 5) => {
+              const delays = [1000, 2000, 4000, 8000, 16000];
+              for (let i = 0; i < retries; i++) {
+                try {
+                  const response = await fetch(url, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                  });
+                  if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+                  return await response.json();
+                } catch (err) {
+                  if (i === retries - 1) throw err;
+                  await new Promise(resolve => setTimeout(resolve, delays[i]));
+                }
+              }
+            };
+
+            try {
+              if(!apiKey) throw new Error("API Key Missing! Please add your Gemini API Key in the code.");
+              const data = await fetchWithRetry();
+              const resultText = data.candidates?.[0]?.content?.parts?.[0]?.text;
+              if (resultText) {
+                setAnalysisResult(JSON.parse(resultText));
+              } else {
+                throw new Error("Invalid response from AI.");
+              }
+            } catch (err) {
+              setApiError(err.message === "API Key Missing! Please add your Gemini API Key in the code." ? err.message : "Sorry, the AI is currently unavailable to analyze this job description. Please try again later.");
+            } finally {
+              setIsAnalyzing(false);
+            }
+          };
+
+          return (
+            <div className="min-h-screen bg-slate-900 text-slate-200 font-sans selection:bg-blue-500/30 selection:text-blue-200">
+              <nav className="fixed top-0 w-full bg-slate-900/90 backdrop-blur-sm border-b border-slate-800 z-50">
+                <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+                  <div className="flex items-center justify-between h-16">
+                    <div className="flex-shrink-0 cursor-pointer" onClick={() => scrollTo('home')}>
+                      <span className="text-2xl font-bold bg-gradient-to-r from-blue-400 to-emerald-400 bg-clip-text text-transparent">AV.</span>
+                    </div>
+                    <div className="hidden md:block">
+                      <div className="ml-10 flex items-baseline space-x-8">
+                        {['home', 'about', 'projects', 'experience', 'education', 'contact'].map((item) => (
+                          <button key={item} onClick={() => scrollTo(item)} className={`capitalize px-3 py-2 rounded-md text-sm font-medium transition-colors ${activeSection === item ? 'text-blue-400 bg-slate-800/50' : 'text-slate-300 hover:text-white hover:bg-slate-800'}`}>{item}</button>
+                        ))}
+                      </div>
+                    </div>
+                    <div className="md:hidden">
+                      <button onClick={() => setIsMenuOpen(!isMenuOpen)} className="text-slate-300 hover:text-white focus:outline-none">
+                        {isMenuOpen ? <XIcon className="h-6 w-6" /> : <MenuIcon className="h-6 w-6" />}
+                      </button>
+                    </div>
+                  </div>
+                </div>
+                {isMenuOpen && (
+                  <div className="md:hidden bg-slate-800 border-b border-slate-700">
+                    <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
+                      {['home', 'about', 'projects', 'experience', 'education', 'contact'].map((item) => (
+                        <button key={item} onClick={() => scrollTo(item)} className="block w-full text-left capitalize px-3 py-2 rounded-md text-base font-medium text-slate-300 hover:text-white hover:bg-slate-700">{item}</button>
+                      ))}
+                    </div>
+                  </div>
+                )}
+              </nav>
+
+              <main className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pt-16">
+                <section id="home" className="min-h-[90vh] flex flex-col justify-center py-20">
+                  <div className="flex flex-col-reverse md:flex-row items-center justify-between gap-12">
+                    <div className="space-y-6 max-w-3xl flex-1">
+                      <p className="text-blue-400 font-mono text-lg">Hi, my name is</p>
+                      <h1 className="text-5xl sm:text-7xl font-bold text-slate-100 tracking-tight">{PERSONAL_INFO.name}.</h1>
+                      <h2 className="text-4xl sm:text-6xl font-bold text-slate-400 tracking-tight">{PERSONAL_INFO.title}.</h2>
+                      <p className="text-lg text-slate-400 leading-relaxed max-w-2xl pt-4">{PERSONAL_INFO.subtitle} {PERSONAL_INFO.about.split('.')[0]}.</p>
+                      <div className="flex flex-wrap gap-4 pt-8">
+                        <button onClick={() => scrollTo('projects')} className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg font-medium transition-colors flex items-center gap-2">
+                          View Projects <ChevronRightIcon className="w-4 h-4" />
+                        </button>
+                        <button onClick={() => setIsJobFitModalOpen(true)} className="bg-slate-800 border border-emerald-500/50 hover:bg-slate-700 text-emerald-400 px-6 py-3 rounded-lg font-medium transition-colors flex items-center gap-2 shadow-[0_0_15px_rgba(16,185,129,0.15)] hover:shadow-[0_0_20px_rgba(16,185,129,0.3)]">
+                          <SparklesIcon className="w-5 h-5" /> Analyze Job Fit
+                        </button>
+                      </div>
+                    </div>
+                    <div className="flex-shrink-0 relative group mb-8 md:mb-0">
+                      <div className="absolute inset-0 bg-blue-500 rounded-full blur-xl opacity-20 group-hover:opacity-40 transition-opacity duration-500"></div>
+                      <div className="relative w-48 h-48 md:w-72 md:h-72 rounded-full overflow-hidden border-4 border-slate-800 shadow-2xl bg-slate-800 flex items-center justify-center">
+                        {imageFailed ? (
+                          <span className="text-6xl md:text-8xl font-bold text-slate-600 tracking-tighter">AV</span>
+                        ) : (
+                          <img src={PERSONAL_INFO.avatar} alt={PERSONAL_INFO.name} onError={() => setImageFailed(true)} className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" />
+                        )}
+                      </div>
+                    </div>
+                  </div>
+                </section>
+
+                <section id="about" className="py-20 border-t border-slate-800/50">
+                  <div className="flex items-center gap-4 mb-12">
+                    <h2 className="text-3xl font-bold text-slate-100">About & Skills</h2>
+                    <div className="h-[1px] bg-slate-700 flex-grow max-w-xs"></div>
+                  </div>
+                  <div className="grid grid-cols-1 lg:grid-cols-2 gap-16">
+                    <div className="space-y-6 text-slate-400 leading-relaxed text-lg">
+                      <p>{PERSONAL_INFO.about}</p>
+                      <p>Throughout my career at global firms, I have focused heavily on Infrastructure as Code (automating server provisioning with Ansible), managing enterprise Network Services via Infoblox, and modernizing operations through containerized environments. I am a proven problem-solver who thrives in high-pressure situations, and I'm looking to bring my leadership and technical expertise to the New Zealand tech ecosystem.</p>
+                    </div>
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                      {SKILLS.map((skillGroup, idx) => (
+                        <div key={idx} className="bg-slate-800/50 p-6 rounded-xl border border-slate-700/50 hover:border-slate-600 transition-colors">
+                          <div className="flex items-center gap-3 mb-4">
+                            {skillGroup.icon}
+                            <h3 className="text-lg font-semibold text-slate-200">{skillGroup.category}</h3>
+                          </div>
+                          <ul className="space-y-2">
+                            {skillGroup.items.map((item, i) => (
+                              <li key={i} className="flex items-center gap-2 text-slate-400">
+                                <CodeIcon className="w-3 h-3 text-blue-500" /><span>{item}</span>
+                              </li>
+                            ))}
+                          </ul>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                </section>
+
+                <section id="projects" className="py-20 border-t border-slate-800/50">
+                  <div className="flex items-center gap-4 mb-12">
+                    <h2 className="text-3xl font-bold text-slate-100">Featured Projects</h2>
+                    <div className="h-[1px] bg-slate-700 flex-grow max-w-xs"></div>
+                  </div>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    {PROJECTS.map((project, idx) => (
+                      <div key={idx} className="group relative bg-slate-800/30 rounded-2xl p-8 border border-slate-700/50 hover:border-blue-500/30 transition-all duration-300 hover:-translate-y-1">
+                        <div className="flex justify-between items-start mb-6">
+                          <div className="p-3 bg-blue-500/10 rounded-lg text-blue-400 group-hover:text-blue-300 transition-colors">
+                            <ServerIcon className="w-8 h-8" />
+                          </div>
+                          <div className="flex gap-4">
+                            <a href={project.github} className="text-slate-400 hover:text-white transition-colors" title="GitHub"><GithubIcon className="w-5 h-5" /></a>
+                            <a href={project.link} className="text-slate-400 hover:text-white transition-colors" title="External Link"><ExternalLinkIcon className="w-5 h-5" /></a>
+                          </div>
+                        </div>
+                        <h3 className="text-2xl font-bold text-slate-200 mb-3 group-hover:text-blue-400 transition-colors">{project.title}</h3>
+                        <p className="text-slate-400 mb-6 leading-relaxed">{project.description}</p>
+                        <div className="flex flex-wrap gap-3 mt-auto">
+                          {project.techStack.map((tech, i) => <span key={i} className="text-xs font-mono text-emerald-400 bg-emerald-400/10 px-3 py-1 rounded-full">{tech}</span>)}
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </section>
+
+                <section id="experience" className="py-20 border-t border-slate-800/50">
+                  <div className="flex items-center gap-4 mb-12">
+                    <h2 className="text-3xl font-bold text-slate-100">Work Experience</h2>
+                    <div className="h-[1px] bg-slate-700 flex-grow max-w-xs"></div>
+                  </div>
+                  <div className="max-w-3xl space-y-12">
+                    {EXPERIENCE.map((exp, idx) => (
+                      <div key={idx} className="relative pl-8 md:pl-0">
+                        <div className="md:hidden absolute left-0 top-2 bottom-0 w-px bg-slate-700"></div>
+                        <div className="flex flex-col md:flex-row md:gap-8">
+                          <div className="md:w-1/4 mb-2 md:mb-0 text-slate-400 font-mono text-sm md:text-right pt-1">{exp.period}</div>
+                          <div className="md:w-3/4 relative">
+                            <div className="absolute -left-[37px] md:-left-5 top-1.5 w-3 h-3 bg-blue-500 rounded-full border-4 border-slate-900"></div>
+                            <h3 className="text-xl font-bold text-slate-200">{exp.role}</h3>
+                            <h4 className="text-lg text-blue-400 mb-4">{exp.company}</h4>
+                            <ul className="space-y-3">
+                              {exp.achievements.map((achieve, i) => (
+                                <li key={i} className="flex items-start gap-3 text-slate-400"><ChevronRightIcon className="w-5 h-5 text-emerald-500 shrink-0 mt-0.5" /><span>{achieve}</span></li>
+                              ))}
+                            </ul>
+                          </div>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </section>
+
+                <section id="education" className="py-20 border-t border-slate-800/50">
+                  <div className="flex items-center gap-4 mb-12">
+                    <h2 className="text-3xl font-bold text-slate-100">Education</h2>
+                    <div className="h-[1px] bg-slate-700 flex-grow max-w-xs"></div>
+                  </div>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    {EDUCATION.map((edu, idx) => (
+                      <div key={idx} className="bg-slate-800/30 rounded-2xl p-8 border border-slate-700/50 hover:border-blue-500/30 transition-colors">
+                        <h3 className="text-2xl font-bold text-slate-200 mb-2">{edu.degree}</h3>
+                        <h4 className="text-lg text-blue-400 mb-4">{edu.school}</h4>
+                        <div className="inline-block px-3 py-1 bg-slate-800 rounded-full text-slate-300 font-mono text-sm mb-4">{edu.period}</div>
+                        <p className="text-slate-400 flex items-start gap-2"><ChevronRightIcon className="w-5 h-5 text-emerald-500 shrink-0 mt-0.5" />{edu.details}</p>
+                      </div>
+                    ))}
+                  </div>
+                </section>
+
+                <section id="contact" className="py-32 border-t border-slate-800/50 text-center max-w-2xl mx-auto">
+                  <p className="text-blue-400 font-mono mb-4">What's Next?</p>
+                  <h2 className="text-4xl md:text-5xl font-bold text-slate-100 mb-6">Get In Touch</h2>
+                  <p className="text-slate-400 text-lg mb-10 leading-relaxed">I'm currently looking for new opportunities to architect scalable systems and tackle complex infrastructure challenges. Whether you have a question or just want to say hi, I'll try my best to get back to you!</p>
+                  <a href={`mailto:${PERSONAL_INFO.email}`} className="inline-flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-8 py-4 rounded-lg font-medium transition-colors text-lg"><MailIcon className="w-5 h-5" /> Say Hello</a>
+                </section>
+              </main>
+
+              <footer className="py-8 text-center text-slate-500 border-t border-slate-800">
+                <div className="flex justify-center gap-6 mb-4">
+                  <a href={PERSONAL_INFO.github} className="hover:text-blue-400 transition-colors"><GithubIcon className="w-5 h-5" /></a>
+                  <a href={PERSONAL_INFO.linkedin} className="hover:text-blue-400 transition-colors"><LinkedinIcon className="w-5 h-5" /></a>
+                  <a href={`mailto:${PERSONAL_INFO.email}`} className="hover:text-blue-400 transition-colors"><MailIcon className="w-5 h-5" /></a>
+                </div>
+                <p className="text-sm font-mono">Designed & Built for Systems Engineering</p>
+              </footer>
+
+              {isJobFitModalOpen && (
+                <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-slate-950/80 backdrop-blur-sm">
+                  <div className="bg-slate-900 border border-slate-700 rounded-xl w-full max-w-2xl max-h-[90vh] flex flex-col overflow-hidden shadow-2xl">
+                    <div className="flex items-center justify-between p-6 border-b border-slate-800 bg-slate-900">
+                      <div className="flex items-center gap-3">
+                        <div className="p-2 bg-emerald-500/10 rounded-lg"><SparklesIcon className="w-6 h-6 text-emerald-400" /></div>
+                        <h3 className="text-xl font-bold text-slate-100">AI Job Fit Analyzer</h3>
+                      </div>
+                      <button onClick={() => setIsJobFitModalOpen(false)} className="text-slate-400 hover:text-white transition-colors"><XIcon className="w-6 h-6" /></button>
+                    </div>
+                    <div className="p-6 overflow-y-auto flex-1">
+                      {!analysisResult ? (
+                        <>
+                          <p className="text-slate-300 mb-4">Paste a job description below, and my AI assistant will analyze my resume data to tell you why I'm a great fit for your role!</p>
+                          <textarea value={jobDescInput} onChange={(e) => setJobDescInput(e.target.value)} placeholder="Paste job description here..." className="w-full h-48 bg-slate-800 border border-slate-700 rounded-lg p-4 text-slate-200 placeholder:text-slate-500 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-all resize-none mb-4" />
+                          {apiError && <p className="text-red-400 mb-4 text-sm">{apiError}</p>}
+                          <button onClick={handleAnalyzeJobFit} disabled={isAnalyzing || !jobDescInput.trim()} className="w-full bg-emerald-600 hover:bg-emerald-700 disabled:bg-slate-700 disabled:text-slate-400 text-white px-6 py-3 rounded-lg font-medium transition-colors flex justify-center items-center gap-2">
+                            {isAnalyzing ? <><Loader2Icon className="w-5 h-5 animate-spin" /> Analyzing Fit...</> : <><SparklesIcon className="w-5 h-5" /> Analyze Fit</>}
+                          </button>
+                        </>
+                      ) : (
+                        <div className="space-y-6 animate-in">
+                          <div className="flex flex-col items-center justify-center p-6 bg-slate-800/50 rounded-xl border border-slate-700 text-center">
+                            <div className="text-5xl font-bold text-emerald-400 mb-2">{analysisResult.matchPercentage}%</div>
+                            <div className="text-slate-300 font-medium tracking-wide uppercase text-sm">Match Score</div>
+                          </div>
+                          <div>
+                            <h4 className="text-lg font-semibold text-slate-100 mb-2 border-b border-slate-800 pb-2">Summary</h4>
+                            <p className="text-slate-300 leading-relaxed">{analysisResult.summary}</p>
+                          </div>
+                          <div>
+                            <h4 className="text-lg font-semibold text-slate-100 mb-3 border-b border-slate-800 pb-2">Key Strengths for this Role</h4>
+                            <ul className="space-y-3">
+                              {analysisResult.keyStrengths.map((strength, idx) => (
+                                <li key={idx} className="flex items-start gap-3 text-slate-300"><ChevronRightIcon className="w-5 h-5 text-emerald-500 shrink-0 mt-0.5" /><span>{strength}</span></li>
+                              ))}
+                            </ul>
+                          </div>
+                          <button onClick={() => { setAnalysisResult(null); setJobDescInput(''); }} className="w-full bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 px-6 py-3 rounded-lg font-medium transition-colors mt-6">Analyze Another Role</button>
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                </div>
+              )}
+            </div>
+          );
+        };
+
+        const root = ReactDOM.createRoot(document.getElementById('root'));
+        root.render(<App />);
+    </script>
+</body>
+</html>
