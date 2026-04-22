@@ -4,12 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Allen Albert T. Varias - Portfolio</title>
-    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- React & ReactDOM -->
     <script src="https://unpkg.com/react@18/umd/react.production.min.js" crossorigin></script>
     <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js" crossorigin></script>
-    <!-- Babel for compiling JSX in the browser -->
     <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
     
     <style>
@@ -52,6 +49,7 @@
         const GlobeIcon = ({ className }) => <Icon className={className}><circle cx="12" cy="12" r="10"></circle><line x1="2" y1="12" x2="22" y2="12"></line><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path></Icon>;
         const DownloadIcon = ({ className }) => <Icon className={className}><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></Icon>;
         const UtensilsIcon = ({ className }) => <Icon className={className}><path d="M3 2v7c0 1.1.9 2 2 2h4a2 2 0 0 0 2-2V2"></path><path d="M7 2v20"></path><path d="M21 15V2a5 5 0 0 0-5 5v6c0 1.1.9 2 2 2h3Zm0 0v7"></path></Icon>;
+        const IdCardIcon = ({ className }) => <Icon className={className}><path d="M16 10h2"></path><path d="M16 14h2"></path><path d="M6.17 15a3 3 0 0 1 5.66 0"></path><circle cx="9" cy="11" r="2"></circle><rect x="2" y="5" width="20" height="14" rx="2"></rect></Icon>;
 
         // --- DATA ---
         const PERSONAL_INFO = {
@@ -63,7 +61,8 @@
           github: "https://github.com/AlVarias",
           linkedin: "https://linkedin.com/in/allen-albert-varias/",
           avatar: "profile.jpg", 
-          cvLink: "Allen_Varias_Systems_Engineer.pdf", // Ensure you upload a file named 'Allen_Varias_Systems_Engineer.pdf' to your GitHub!
+          cvLink: "Allen_Varias_Systems_Engineer.pdf",
+          digitalCardLink: "https://alvarias.github.io/links/"
         };
 
         const SKILLS = [
@@ -267,6 +266,9 @@
                         <a href={PERSONAL_INFO.cvLink} download target="_blank" rel="noopener noreferrer" className="border border-slate-600 hover:bg-slate-800 text-white px-6 py-3 rounded-lg font-medium transition-colors flex items-center gap-2">
                           <DownloadIcon className="w-4 h-4" /> Download CV
                         </a>
+                        <a href={PERSONAL_INFO.digitalCardLink} target="_blank" rel="noopener noreferrer" className="border border-blue-500/50 hover:bg-blue-900/30 text-blue-400 px-6 py-3 rounded-lg font-medium transition-colors flex items-center gap-2">
+                          <IdCardIcon className="w-4 h-4" /> Digital Card
+                        </a>
                         <button onClick={() => setIsJobFitModalOpen(true)} className="bg-slate-800 border border-emerald-500/50 hover:bg-slate-700 text-emerald-400 px-6 py-3 rounded-lg font-medium transition-colors flex items-center gap-2 shadow-[0_0_15px_rgba(16,185,129,0.15)] hover:shadow-[0_0_20px_rgba(16,185,129,0.3)]">
                           <SparklesIcon className="w-5 h-5" /> Analyze Job Fit
                         </button>
@@ -426,7 +428,15 @@
                   <p className="text-blue-400 font-mono mb-4">What's Next?</p>
                   <h2 className="text-4xl md:text-5xl font-bold text-slate-100 mb-6">Get In Touch</h2>
                   <p className="text-slate-400 text-lg mb-10 leading-relaxed">I'm currently looking for new opportunities to architect scalable systems and tackle complex infrastructure challenges. Whether you have a question or just want to say hi, I'll try my best to get back to you!</p>
-                  <a href={`mailto:${PERSONAL_INFO.email}`} className="inline-flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-8 py-4 rounded-lg font-medium transition-colors text-lg"><MailIcon className="w-5 h-5" /> Say Hello</a>
+                  
+                  <div className="flex flex-wrap justify-center gap-4">
+                    <a href={`mailto:${PERSONAL_INFO.email}`} className="inline-flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-8 py-4 rounded-lg font-medium transition-colors text-lg">
+                      <MailIcon className="w-5 h-5" /> Say Hello
+                    </a>
+                    <a href={PERSONAL_INFO.digitalCardLink} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 bg-slate-800 hover:bg-slate-700 border border-slate-700 text-white px-8 py-4 rounded-lg font-medium transition-colors text-lg shadow-[0_0_15px_rgba(59,130,246,0.15)] hover:shadow-[0_0_20px_rgba(59,130,246,0.3)]">
+                      <IdCardIcon className="w-5 h-5" /> View Digital Card
+                    </a>
+                  </div>
                 </section>
               </main>
 
