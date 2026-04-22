@@ -94,7 +94,7 @@
         ];
 
         const INTERESTS = [
-          { title: "Love & Luto", description: "Exploring culinary passions, preparing authentic dishes, and discovering new flavors.", icon: <UtensilsIcon className="w-6 h-6 text-orange-400" /> },
+          { title: "Love & Luto", description: "Exploring culinary passions, preparing authentic dishes, and discovering new flavors.", icon: <UtensilsIcon className="w-6 h-6 text-orange-400" />, link: "https://alvarias.github.io/love-and-luto/" },
           { title: "Home Lab Building", description: "Experimenting with Proxmox, Docker, and self-hosted services in my personal server rack.", icon: <ServerIcon className="w-6 h-6 text-blue-400" /> },
           { title: "Arduino & IoT", description: "Building custom automation sensors and smart home devices, expanding on my degree specialization.", icon: <CpuIcon className="w-6 h-6 text-emerald-400" /> },
           { title: "Outdoor Adventures", description: "Exploring the beautiful landscapes, beaches, and hiking trails across New Zealand.", icon: <GlobeIcon className="w-6 h-6 text-yellow-400" /> },
@@ -393,15 +393,32 @@
                     <div className="h-[1px] bg-slate-700 flex-grow max-w-xs"></div>
                   </div>
                   <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-6">
-                    {INTERESTS.map((interest, idx) => (
-                      <div key={idx} className="bg-slate-800/30 rounded-2xl p-6 border border-slate-700/50 hover:border-blue-500/30 transition-all duration-300 hover:-translate-y-1 text-center flex flex-col items-center">
-                        <div className="p-4 bg-slate-900 rounded-full mb-4 inline-flex items-center justify-center border border-slate-700">
-                          {interest.icon}
+                    {INTERESTS.map((interest, idx) => {
+                      const innerContent = (
+                        <React.Fragment>
+                          <div className="p-4 bg-slate-900 rounded-full mb-4 inline-flex items-center justify-center border border-slate-700">
+                            {interest.icon}
+                          </div>
+                          <h3 className="text-lg font-bold text-slate-200 mb-2 flex items-center justify-center gap-2">
+                            {interest.title}
+                            {interest.link && <ExternalLinkIcon className="w-4 h-4 text-slate-500" />}
+                          </h3>
+                          <p className="text-sm text-slate-400 leading-relaxed">{interest.description}</p>
+                        </React.Fragment>
+                      );
+                      
+                      const containerClasses = "bg-slate-800/30 rounded-2xl p-6 border border-slate-700/50 hover:border-blue-500/30 transition-all duration-300 hover:-translate-y-1 text-center flex flex-col items-center block w-full";
+
+                      return interest.link ? (
+                        <a key={idx} href={interest.link} target="_blank" rel="noopener noreferrer" className={containerClasses + " cursor-pointer group"}>
+                          {innerContent}
+                        </a>
+                      ) : (
+                        <div key={idx} className={containerClasses}>
+                          {innerContent}
                         </div>
-                        <h3 className="text-lg font-bold text-slate-200 mb-2">{interest.title}</h3>
-                        <p className="text-sm text-slate-400 leading-relaxed">{interest.description}</p>
-                      </div>
-                    ))}
+                      );
+                    })}
                   </div>
                 </section>
 
