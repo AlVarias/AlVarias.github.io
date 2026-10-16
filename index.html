@@ -75,11 +75,104 @@
         ];
 
         const PROJECTS = [
-          { title: "Personal Portfolio & Digital Card", description: "Designed and developed a responsive, interactive personal portfolio website and digital business card. Features include a React-based UI, Tailwind CSS styling, and an AI-powered job fit analyzer integrated via the Google Gemini API.", techStack: ["React", "Tailwind CSS", "Gemini API", "GitHub Pages"], link: "https://alvarias.github.io/", github: "https://github.com/AlVarias" },
-          { title: "vDNS Modernization & Expansion", description: "Technical Lead for major telecommunications projects including vDNS Modernization 2021, vDNS Expansion 2022, and vDNS 10G Enhancement. Co-authored key documentation such as Low-Level Designs (LLD) and Root-Cause Analysis (RCA).", techStack: ["Red Hat OpenStack", "Ansible", "Linux"], link: "#", github: "https://github.com/AlVarias" },
-          { title: "House of Representatives VoIP & Wi-Fi", description: "Designed, installed, and integrated server infrastructure, system security, and redundancy strategies for the Philippine House of Representatives.", techStack: ["Linux", "Networking", "System Security"], link: "#", github: "https://github.com/AlVarias" },
-          { title: "Custom AAA & Digital Signage Systems", description: "Developed and maintained custom Linux-based AAA (Authentication, Authorization, and Accounting) systems and digital signage solutions for FilAsia Systems Tech.", techStack: ["Linux", "Shell Scripting", "Systems Dev"], link: "#", github: "https://github.com/AlVarias" },
-          { title: "Public Sector Wi-Fi Monetization", description: "Key engineer on the Greenfield Wi-Fi Monetization Project and Wireless Access Point on Governance in Cavite Project, deploying robust network infrastructure and conducting client training.", techStack: ["Network Infrastructure", "Linux", "Integration"], link: "#", github: "https://github.com/AlVarias" }
+          { 
+            title: "Personal Portfolio & Digital Card", 
+            description: "Designed and developed a responsive, interactive personal portfolio website and digital business card. Features include a React-based UI, Tailwind CSS styling, and an AI-powered job fit analyzer integrated via the Google Gemini API.", 
+            techStack: ["React", "Tailwind CSS", "Gemini API", "GitHub Pages"], 
+            link: "https://alvarias.github.io/", 
+            github: "https://github.com/AlVarias",
+            article: {
+              role: "Creator & Full-Stack Developer",
+              overview: "Created a modern, responsive personal portfolio and digital business card hosted on GitHub Pages, integrating an AI-powered job fit analyzer via the Google Gemini API.",
+              details: [
+                "Built a fast, single-file React 18 application styled with Tailwind CSS and custom inline SVG icons.",
+                "Integrated the Google Gemini API with structured JSON schema outputs to dynamically evaluate job descriptions against my resume.",
+                "Connected a companion mobile-first Digital Business Card (alvarias.github.io/links) for instant networking."
+              ]
+            }
+          },
+          { 
+            title: "Data Center Rack & Stack Deployment", 
+            description: "Executed end-to-end physical server rack-and-stack installations, structured network cabling (Cat6/Fiber), and redundant dual-PDU power cable routing for enterprise data center environments.", 
+            techStack: ["Rack & Stack", "Network Cabling", "Power Cabling", "Server Deployment"], 
+            link: "#", 
+            github: "https://github.com/AlVarias",
+            article: {
+              role: "Systems & Infrastructure Engineer",
+              overview: "Led physical layer (Layer 1) data center deployments across enterprise server rooms, handling everything from bare-metal server mounting to structured network and power cabling prior to OS provisioning.",
+              details: [
+                "Physical Rack & Stack: Mounted enterprise rackmount servers, storage arrays, and Top-of-Rack (ToR) switches following rack elevation diagrams and thermal airflow standards.",
+                "Network Cable Installation: Installed, dressed, and labeled Cat6 copper and fiber optic patch cables across patch panels and switches, separating management (iLO/iDRAC), production, and storage traffic.",
+                "Redundant Power Cabling: Routed and balanced dual power supplies across primary (A-side) and secondary (B-side) rack PDUs and UPS feeds for high-availability power redundancy.",
+                "Acceptance Testing: Conducted hardware burn-in tests, cable continuity verification, port mapping documentation, and out-of-band management setup."
+              ]
+            }
+          },
+          { 
+            title: "vDNS Modernization & Expansion", 
+            description: "Technical Lead for major telecommunications projects including vDNS Modernization 2021, vDNS Expansion 2022, and vDNS 10G Enhancement. Co-authored key documentation such as Low-Level Designs (LLD) and Root-Cause Analysis (RCA).", 
+            techStack: ["Red Hat OpenStack", "Ansible", "Linux"], 
+            link: "#", 
+            github: "https://github.com/AlVarias",
+            article: {
+              role: "Technical Lead / Associate Systems Engineer II",
+              overview: "Served as Technical Lead for three multi-phase carrier-grade telecommunications initiatives—vDNS Modernization 2021, vDNS Expansion 2022, and vDNS 10G Enhancement.",
+              details: [
+                "Deployed and scaled virtualized DNS infrastructure on Red Hat OpenStack Platform (RHOSP) across production carrier environments.",
+                "Created project-specific Ansible playbooks to automate Linux server post-installation, configuration, and security hardening.",
+                "Engineered the 10GbE network throughput upgrade and executed Hardware/Software Acceptance Tests (HAT/SAT).",
+                "Co-authored Low-Level Designs (LLD), Root-Cause Analysis (RCA) reports, and technical proposals."
+              ]
+            }
+          },
+          { 
+            title: "House of Representatives VoIP & Wi-Fi", 
+            description: "Designed, installed, and integrated server infrastructure, system security, and redundancy strategies for the Philippine House of Representatives.", 
+            techStack: ["Linux", "Networking", "System Security"], 
+            link: "#", 
+            github: "https://github.com/AlVarias",
+            article: {
+              role: "Systems Engineer / Integrator",
+              overview: "Designed, installed, and integrated high-availability Linux server infrastructure, campus Wi-Fi, and VoIP communications for the Philippine House of Representatives.",
+              details: [
+                "Installed and configured Linux-based servers hosting the core VoIP PBX and wireless network management controllers.",
+                "Implemented system security hardening, firewall policies, backup automation, and failover redundancy strategies.",
+                "Conducted on-site hardware integration, acceptance testing, and operational handover training for internal IT staff."
+              ]
+            }
+          },
+          { 
+            title: "Custom AAA & Digital Signage Systems", 
+            description: "Developed and maintained custom Linux-based AAA (Authentication, Authorization, and Accounting) systems and digital signage solutions for FilAsia Systems Tech.", 
+            techStack: ["Linux", "Shell Scripting", "Systems Dev"], 
+            link: "#", 
+            github: "https://github.com/AlVarias",
+            article: {
+              role: "Systems Engineer / Developer",
+              overview: "Built and maintained custom Linux server appliances powering commercial Wi-Fi Authentication, Authorization, and Accounting (AAA) and digital signage systems (PlayQube TV Box).",
+              details: [
+                "Developed a custom Linux-based AAA system managing captive portal authentication, bandwidth policies, and session accounting.",
+                "Engineered custom Linux OS builds and shell scripts for digital signage players with automated playback and remote content syncing.",
+                "Provided ongoing systems maintenance, OS patching, and level-3 escalation support."
+              ]
+            }
+          },
+          { 
+            title: "Public Sector Wi-Fi Monetization", 
+            description: "Key engineer on the Greenfield Wi-Fi Monetization Project and Wireless Access Point on Governance in Cavite Project, deploying robust network infrastructure and conducting client training.", 
+            techStack: ["Network Infrastructure", "Linux", "Integration"], 
+            link: "#", 
+            github: "https://github.com/AlVarias",
+            article: {
+              role: "Key Systems & Deployment Engineer",
+              overview: "Deployed public and commercial wireless network infrastructure for the Governance in Cavite Wireless Access Point Project and Greenfield Wi-Fi Monetization rollout.",
+              details: [
+                "Integrated indoor and outdoor wireless access points, switching gear, and Linux backend management servers.",
+                "Configured network redundancy, user onboarding portals, and centralized monitoring.",
+                "Conducted formal product orientations and technical training for client IT teams and partners."
+              ]
+            }
+          }
         ];
 
         const EXPERIENCE = [
@@ -92,7 +185,7 @@
         ];
 
         const EDUCATION = [
-          { degree: "Bachelor of Science in Computer Engineering", school: "Rogationist College", period: "2012 - 2017", details: "Specialized in Arduino Robotics." }
+          { degree: "Bachelor of Science in Computer Engineering", school: "Rogationist College", link: "https://www.rog.edu.ph/", period: "2012 - 2017", details: "Specialized in Arduino Robotics." }
         ];
 
         const INTERESTS = [
@@ -109,6 +202,10 @@
           const [isMenuOpen, setIsMenuOpen] = useState(false);
           const [activeSection, setActiveSection] = useState('home');
           const [imageFailed, setImageFailed] = useState(false);
+          const [logoFailed, setLogoFailed] = useState(false);
+
+          // Project Article Modal State
+          const [selectedProject, setSelectedProject] = useState(null);
 
           // Gemini API States
           const [isJobFitModalOpen, setIsJobFitModalOpen] = useState(false);
@@ -151,9 +248,8 @@
             setApiError('');
             setAnalysisResult(null);
 
-            // IMPORTANT: Place your actual Google Gemini API key inside the quotes below!
             const apiKey = ""; 
-            const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${apiKey}`;
+            const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-3-flash-preview:generateContent?key=${apiKey}`;
 
             const profileContext = {
               name: PERSONAL_INFO.name,
@@ -165,7 +261,7 @@
 
             const systemInstruction = `You are an AI recruiter assistant helping evaluate Allen Albert T. Varias's fit for job descriptions. 
             Here is Allen's resume context: ${JSON.stringify(profileContext)}. 
-            Analyze the provided job description and evaluate how well Allen's specific Linux, OpenStack, Infrastructure, and Automation experience matches it. Be objective, professional, and highlight specific overlaps. Provide your response strictly adhering to the JSON schema.`;
+            Analyze the provided job description and evaluate how well Allen's specific Linux, OpenStack, Infrastructure, Rack and Stack, and Automation experience matches it. Be objective, professional, and highlight specific overlaps. Provide your response strictly adhering to the JSON schema.`;
 
             const payload = {
               systemInstruction: { parts: [{ text: systemInstruction }] },
@@ -207,7 +303,6 @@
             };
 
             try {
-              if(!apiKey) throw new Error("API Key Missing! Please add your Gemini API Key in the code.");
               const data = await fetchWithRetry();
               const resultText = data.candidates?.[0]?.content?.parts?.[0]?.text;
               if (resultText) {
@@ -216,7 +311,7 @@
                 throw new Error("Invalid response from AI.");
               }
             } catch (err) {
-              setApiError(err.message === "API Key Missing! Please add your Gemini API Key in the code." ? err.message : "Sorry, the AI is currently unavailable to analyze this job description. Please try again later.");
+              setApiError("Sorry, the AI is currently unavailable to analyze this job description. Please make sure your Gemini API key is configured when deploying.");
             } finally {
               setIsAnalyzing(false);
             }
@@ -228,7 +323,11 @@
                 <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
                   <div className="flex items-center justify-between h-16">
                     <div className="flex-shrink-0 cursor-pointer flex items-center" onClick={() => scrollTo('home')}>
-                      <img src="logo.png" alt="AV Logo" className="h-10 w-auto object-contain rounded-md" />
+                      {logoFailed ? (
+                        <span className="text-xl font-bold font-mono text-blue-400 border border-blue-500/40 px-2.5 py-1 rounded-md bg-slate-800">AV</span>
+                      ) : (
+                        <img src="logo.png" alt="AV Logo" onError={() => setLogoFailed(true)} className="h-10 w-auto object-contain rounded-md" />
+                      )}
                     </div>
                     <div className="hidden md:block">
                       <div className="ml-10 flex items-baseline space-x-8">
@@ -328,14 +427,32 @@
                   </div>
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                     {PROJECTS.map((project, idx) => (
-                      <div key={idx} className="group relative bg-slate-800/30 rounded-2xl p-8 border border-slate-700/50 hover:border-blue-500/30 transition-all duration-300 hover:-translate-y-1">
+                      <div 
+                        key={idx} 
+                        onClick={() => setSelectedProject(project)}
+                        className="group cursor-pointer relative bg-slate-800/30 rounded-2xl p-8 border border-slate-700/50 hover:border-blue-500/30 transition-all duration-300 hover:-translate-y-1 flex flex-col"
+                      >
                         <div className="flex justify-between items-start mb-6">
                           <div className="p-3 bg-blue-500/10 rounded-lg text-blue-400 group-hover:text-blue-300 transition-colors">
                             <ServerIcon className="w-8 h-8" />
                           </div>
-                          <div className="flex gap-4">
-                            <a href={project.github} className="text-slate-400 hover:text-white transition-colors" title="GitHub"><GithubIcon className="w-5 h-5" /></a>
-                            <a href={project.link} className="text-slate-400 hover:text-white transition-colors" title="External Link"><ExternalLinkIcon className="w-5 h-5" /></a>
+                          <div className="flex gap-4" onClick={(e) => e.stopPropagation()}>
+                            <a href={project.github} target="_blank" rel="noopener noreferrer" className="text-slate-400 hover:text-white transition-colors" title="GitHub"><GithubIcon className="w-5 h-5" /></a>
+                            <a 
+                              href={project.link} 
+                              onClick={(e) => {
+                                if (project.link === "#") {
+                                  e.preventDefault();
+                                  setSelectedProject(project);
+                                }
+                              }}
+                              target={project.link !== "#" ? "_blank" : undefined}
+                              rel={project.link !== "#" ? "noopener noreferrer" : undefined}
+                              className="text-slate-400 hover:text-white transition-colors" 
+                              title="Project / Article Link"
+                            >
+                              <ExternalLinkIcon className="w-5 h-5" />
+                            </a>
                           </div>
                         </div>
                         <h3 className="text-2xl font-bold text-slate-200 mb-3 group-hover:text-blue-400 transition-colors">{project.title}</h3>
@@ -381,18 +498,34 @@
                     <div className="h-[1px] bg-slate-700 flex-grow max-w-xs"></div>
                   </div>
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                    {EDUCATION.map((edu, idx) => (
-                      <div key={idx} className="bg-slate-800/30 rounded-2xl p-8 border border-slate-700/50 hover:border-blue-500/30 transition-colors">
-                        <h3 className="text-2xl font-bold text-slate-200 mb-2">{edu.degree}</h3>
-                        <h4 className="text-lg text-blue-400 mb-4">{edu.school}</h4>
-                        <div className="inline-block px-3 py-1 bg-slate-800 rounded-full text-slate-300 font-mono text-sm mb-4">{edu.period}</div>
-                        <p className="text-slate-400 flex items-start gap-2"><ChevronRightIcon className="w-5 h-5 text-emerald-500 shrink-0 mt-0.5" />{edu.details}</p>
-                      </div>
-                    ))}
+                    {EDUCATION.map((edu, idx) => {
+                      const eduContent = (
+                        <React.Fragment>
+                          <h3 className="text-2xl font-bold text-slate-200 mb-2">{edu.degree}</h3>
+                          <h4 className="text-lg text-blue-400 mb-4 flex items-center gap-2 group-hover:text-blue-300 transition-colors">
+                            <span>{edu.school}</span>
+                            {edu.link && <ExternalLinkIcon className="w-4 h-4 text-slate-400 group-hover:text-blue-300 transition-colors" />}
+                          </h4>
+                          <div className="inline-block px-3 py-1 bg-slate-800 rounded-full text-slate-300 font-mono text-sm mb-4">{edu.period}</div>
+                          <p className="text-slate-400 flex items-start gap-2"><ChevronRightIcon className="w-5 h-5 text-emerald-500 shrink-0 mt-0.5" />{edu.details}</p>
+                        </React.Fragment>
+                      );
+
+                      const cardClasses = "bg-slate-800/30 rounded-2xl p-8 border border-slate-700/50 hover:border-blue-500/30 transition-all duration-300 hover:-translate-y-1 block";
+
+                      return edu.link ? (
+                        <a key={idx} href={edu.link} target="_blank" rel="noopener noreferrer" className={cardClasses + " cursor-pointer group"}>
+                          {eduContent}
+                        </a>
+                      ) : (
+                        <div key={idx} className={cardClasses}>
+                          {eduContent}
+                        </div>
+                      );
+                    })}
                   </div>
                 </section>
 
-                {/* --- NEW INTERESTS SECTION --- */}
                 <section id="interests" className="py-20 border-t border-slate-800/50">
                   <div className="flex items-center gap-4 mb-12">
                     <h2 className="text-3xl font-bold text-slate-100">Interests & Hobbies</h2>
@@ -452,6 +585,71 @@
                 </div>
                 <p className="text-sm font-mono">Designed and built for Allen Albert T. Varias</p>
               </footer>
+
+              {/* PROJECT ARTICLE VIEW MODAL */}
+              {selectedProject && (
+                <div 
+                  className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-slate-950/80 backdrop-blur-sm"
+                  onClick={() => setSelectedProject(null)}
+                >
+                  <div 
+                    className="bg-slate-900 border border-slate-700 rounded-xl w-full max-w-2xl max-h-[90vh] flex flex-col overflow-hidden shadow-2xl animate-in"
+                    onClick={(e) => e.stopPropagation()}
+                  >
+                    <div className="flex items-center justify-between p-6 border-b border-slate-800 bg-slate-900">
+                      <div className="flex items-center gap-3">
+                        <div className="p-2 bg-blue-500/10 rounded-lg"><ServerIcon className="w-6 h-6 text-blue-400" /></div>
+                        <div>
+                          <h3 className="text-xl font-bold text-slate-100">{selectedProject.title}</h3>
+                          <p className="text-sm text-blue-400 font-mono">{selectedProject.article?.role}</p>
+                        </div>
+                      </div>
+                      <button onClick={() => setSelectedProject(null)} className="text-slate-400 hover:text-white transition-colors"><XIcon className="w-6 h-6" /></button>
+                    </div>
+                    <div className="p-6 overflow-y-auto flex-1 space-y-6">
+                      <div className="flex flex-wrap gap-2">
+                        {selectedProject.techStack.map((tech, i) => (
+                          <span key={i} className="text-xs font-mono text-emerald-400 bg-emerald-400/10 px-3 py-1 rounded-full">{tech}</span>
+                        ))}
+                      </div>
+                      <div>
+                        <h4 className="text-lg font-semibold text-slate-100 mb-2 border-b border-slate-800 pb-2">Project Overview</h4>
+                        <p className="text-slate-300 leading-relaxed">{selectedProject.article?.overview || selectedProject.description}</p>
+                      </div>
+                      {selectedProject.article?.details && (
+                        <div>
+                          <h4 className="text-lg font-semibold text-slate-100 mb-3 border-b border-slate-800 pb-2">Key Contributions & Implementation</h4>
+                          <ul className="space-y-3">
+                            {selectedProject.article.details.map((item, idx) => (
+                              <li key={idx} className="flex items-start gap-3 text-slate-300">
+                                <ChevronRightIcon className="w-5 h-5 text-emerald-500 shrink-0 mt-0.5" />
+                                <span>{item}</span>
+                              </li>
+                            ))}
+                          </ul>
+                        </div>
+                      )}
+                      <div className="flex flex-wrap items-center justify-between gap-4 pt-4 border-t border-slate-800">
+                        <div className="flex gap-3">
+                          {selectedProject.github && (
+                            <a href={selectedProject.github} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 px-4 py-2 rounded-lg text-sm font-medium transition-colors">
+                              <GithubIcon className="w-4 h-4" /> GitHub
+                            </a>
+                          )}
+                          {selectedProject.link && selectedProject.link !== "#" && (
+                            <a href={selectedProject.link} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors">
+                              <ExternalLinkIcon className="w-4 h-4" /> Open Project Link
+                            </a>
+                          )}
+                        </div>
+                        <button onClick={() => setSelectedProject(null)} className="bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 px-5 py-2 rounded-lg text-sm font-medium transition-colors">
+                          Close
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              )}
 
               {/* AI MODAL */}
               {isJobFitModalOpen && (
