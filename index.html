@@ -77,17 +77,49 @@
         const PROJECTS = [
           { 
             title: "Personal Portfolio & Digital Card", 
-            description: "Designed and developed a responsive, interactive personal portfolio website and digital business card. Features include a React-based UI, Tailwind CSS styling, and an AI-powered job fit analyzer integrated via the Google Gemini API.", 
+            description: "Designed and developed a responsive, interactive personal portfolio website, digital business card, and a suite of custom web applications hosted on GitHub Pages.", 
             techStack: ["React", "Tailwind CSS", "Gemini API", "GitHub Pages"], 
             link: "https://alvarias.github.io/links/", 
             github: "https://github.com/AlVarias",
             article: {
               role: "Creator & Full-Stack Developer",
-              overview: "Created a modern, responsive personal portfolio and digital business card hosted on GitHub Pages, integrating an AI-powered job fit analyzer via the Google Gemini API.",
+              overview: "Created a modern, responsive personal portfolio, digital business card, and a collection of interactive web applications hosted on GitHub Pages—ranging from culinary showcases and digital event invitations to web-based photo booths and storytelling platforms.",
+              subProjects: [
+                {
+                  title: "Love & Luto",
+                  url: "https://alvarias.github.io/love-and-luto/",
+                  tag: "Culinary & Recipe Web App",
+                  description: "An interactive culinary passion project and recipe collection exploring authentic home-cooked dishes, kitchen stories, and flavors."
+                },
+                {
+                  title: "Digital Event Invitation",
+                  url: "https://alvarias.github.io/invitation/",
+                  tag: "Interactive Event Microsite",
+                  description: "A responsive, mobile-friendly digital invitation web application featuring smooth animations, event schedule details, and interactive guest information."
+                },
+                {
+                  title: "VibeShoot",
+                  url: "https://alvarias.github.io/vibeshoot/",
+                  tag: "Creative Media & Photography",
+                  description: "A sleek photography and visual media showcase web application designed with modern UI layouts, dynamic galleries, and smooth visual transitions."
+                },
+                {
+                  title: "VibeSnap",
+                  url: "https://alvarias.github.io/vibesnap/",
+                  tag: "Web Photo Booth & Snapshot App",
+                  description: "A fast, interactive browser-based snapshot and photo booth web app built for capturing, styling, and sharing memorable moments."
+                },
+                {
+                  title: "Variastoria",
+                  url: "https://alvarias.github.io/variastoria/",
+                  tag: "Storytelling & Visual Chronicle",
+                  description: "A personal storytelling and digital chronicle platform crafted with an engaging, distraction-free reading and visual timeline interface."
+                }
+              ],
               details: [
-                "Built a fast, single-file React 18 application styled with Tailwind CSS and custom inline SVG icons.",
+                "Built a fast, single-file React 18 portfolio application styled with Tailwind CSS and custom inline SVG icons.",
                 "Integrated the Google Gemini API with structured JSON schema outputs to dynamically evaluate job descriptions against my resume.",
-                "Connected a companion mobile-first Digital Business Card (alvarias.github.io/links) for instant networking."
+                "Connected a companion mobile-first Digital Business Card (alvarias.github.io/links) and 5 custom web applications on GitHub Pages."
               ]
             }
           },
@@ -225,12 +257,97 @@
         ];
 
         const EXPERIENCE = [
-          { role: "Assistant Pharmacy Supervisor", company: "Chemist Warehouse", companyUrl: "https://www.chemistwarehouse.co.nz/competitions", period: "May 2024 - Aug 2026 (Promoted to 2IC / Assistant Manager: Oct 2025 - Dec 2025)", achievements: ["Operational Leadership: Manage high-volume workflows and team coordination in a strictly regulated clinical environment.", "Technical Troubleshooting: On-site lead for resolving POS and networking disruptions, ensuring service continuity for patient-facing systems."] },
-          { role: "Volunteer Production Team (Graphics Operator)", company: "City Impact Church", companyUrl: "https://cityimpactchurch.com/visit-us/", period: "2025 - Present", achievements: ["Operated live visual and graphics systems during high-attendance weekly events.", "Collaborated with a multi-disciplinary technical team under strict live-production deadlines.", "Troubleshot hardware and software issues on the fly to ensure seamless service continuity."] },
-          { role: "Technical Consultant", company: "Systemethix Limited", companyUrl: "https://www.systemethix.co.nz/", period: "Aug 2023 - Mar 2024", achievements: ["BAU resource for ongoing Managed Services customers, proactively addressing tickets and providing on-call support.", "Managed customer queries efficiently, maintaining comprehensive lists and timelines to consistently meet and exceed SLAs.", "Implemented project management methodologies, including meticulous documentation.", "Collaborated with technical staff to resolve and escalate complex issues, conducted routine health checks, and contributed to automation.", "Performed Field Engineer duties for on-site hardware replacements."] },
-          { role: "Systems Engineer", company: "Antlabs", companyUrl: "https://www.antlabs.com/", period: "Feb 2023 - Apr 2023", achievements: ["Analyzed technical problems on Linux based servers down to problem isolation and acted as part of the technical escalation path for product support.", "Created automation using Ansible-playbooks for client queries and project implementations.", "Performed operation maintenance, investigation, and recovery of services to functional state on Linux operated servers.", "Performed shell scripting and software application building/maintenance on Linux servers."] },
-          { role: "Associate Systems Engineer II", company: "SMS Global Technologies Inc.", companyUrl: "https://www.smsgt.com/", period: "Oct 2019 - Feb 2023", achievements: ["Served as Technical Lead for Linux and Red Hat OpenStack projects: vDNS Modernization 2021, vDNS Expansion 2022, and vDNS 10G Enhancement.", "Created project-specific Ansible-playbooks to automate installation and configuration on Linux systems.", "Provided technical input and co-authored key documentation including LLD, RCA, and technical proposals.", "Performed hardware/software acceptance tests, IoT tests, and provided on-call support for high severity service impact issues."] },
-          { role: "Systems Engineer / Developer", company: "FilAsia Systems Tech Inc", companyUrl: "https://www.f6s.com/company/filasiasystemtechnologiesfast", period: "Apr 2017 - Oct 2019", achievements: ["Involved in major projects including Governance in Cavite WAP, Greenfield Wi-Fi Monetization, PlayQube TV Box, and House of Representatives VoIP & Wi-Fi.", "Developed a custom Linux-based AAA system and digital signage system.", "Integrated systems including OS installation, application software, systems security, backup, and redundancy strategies.", "Conducted product orientation and training for clients and partners on existing company systems."] }
+          { 
+            role: "Pharmacy Assistant - Supervisor", 
+            company: "Chemist Warehouse - Sylvia Park", 
+            companyUrl: "https://www.chemistwarehouse.co.nz/competitions", 
+            period: "May 2024 - Aug 2026 (Acting 2IC: Oct 2025 – Dec 2025)", 
+            achievements: [
+              "Assisting customers with general queries.",
+              "Replenishing stock and maintaining inventory levels.",
+              "Serving customers and processing purchases through our Point-of-Sale system.",
+              "Setting up displays for catalogue promotions.",
+              "Marking off large volumes of incoming stock.",
+              "Serve as the primary on-site technical point of contact for POS systems and network connectivity issues, ensuring zero disruption to services.",
+              "Supervise daily operations, prioritize workflows, and successfully stepped up as Acting 2IC (Oct 2025 – Dec 2025) to lead store operations before returning to core supervisory duties.",
+              "Ensure 100% compliance with strict operational, healthcare, and safety regulations."
+            ] 
+          },
+          { 
+            role: "Volunteer Production Team (Graphics Operator)", 
+            company: "City Impact Church", 
+            companyUrl: "https://cityimpactchurch.com/visit-us/", 
+            period: "2025 - Present", 
+            achievements: [
+              "Operated live visual and graphics systems during high-attendance weekly events.", 
+              "Collaborated with a multi-disciplinary technical team under strict live-production deadlines.", 
+              "Troubleshot hardware and software issues on the fly to ensure seamless service continuity."
+            ] 
+          },
+          { 
+            role: "Technical Consultant", 
+            company: "SYSTEMETHIX Limited - Onehunga, New Zealand", 
+            companyUrl: "https://www.systemethix.co.nz/", 
+            period: "08/2023 – 03/2024", 
+            achievements: [
+              "Acted as a BAU resource for ongoing managed Services customers, proactively managing tickets and ensuring timely resolutions.",
+              "Implemented project management methodologies, including meticulous documentation.",
+              "Developed and maintained comprehensive lists, managing timelines to consistently meet and exceed customer service level agreements (SLAs).",
+              "On-call for customer support with additional remuneration, participated in roster-based support.",
+              "Collaborated with technical staff, escalated complex issues, and contributed to incident and request management.",
+              "Captured reusable artifacts in the knowledge management system, conducted routine health checks, and assisted with report production.",
+              "Provided on-site hardware replacement (Field Engineer work) and assisted clients in troubleshooting Linux servers with Docker, Ansible, and proprietary applications thru ticket-based approach.",
+              "Contributed to automation, reducing complexity, and actively participated in knowledge management and documentation."
+            ] 
+          },
+          { 
+            role: "Systems Engineer", 
+            company: "ANTLABS - Singapore / Philippines (Remote)", 
+            companyUrl: "https://www.antlabs.com/", 
+            period: "Feb 2023 – April 2023", 
+            achievements: [
+              "Analyzed technical problems on Linux based servers down to problem isolation.",
+              "Created automation using Ansible-playbook for the clients’ queries and project implementation.",
+              "Part of the technical escalation path for product support.",
+              "Researched possible solutions for the problem and proposed where required.",
+              "Performed operation maintenance, investigation and analysis of technical problems and eventually recovering of services to functional state on servers which are all Linux operated servers.",
+              "Performed shell scripting and software application building/maintenance on Linux servers."
+            ] 
+          },
+          { 
+            role: "Associate Systems Engineer II (Technical Lead)", 
+            company: "SMS GLOBAL TECHNOLOGIES INC. - Philippines", 
+            companyUrl: "https://www.smsgt.com/", 
+            period: "Oct 2019 – Feb 2023", 
+            achievements: [
+              "Performed troubleshooting and technical support on Linux and Red Hat Openstack servers via phone, web-based tools, email and actual site visit.",
+              "Performed operational, maintenance and stability for electronic products, components equipment and Linux based systems.",
+              "Created Ansible-playbook which are based on projects/clients need and to automate installation and configuration on a Linux based system.",
+              "On-call support for emergency and high severity service impact issues.",
+              "Maintained processes pertinent to ticketing and records to track customer problems, enhancement, and defects.",
+              "Provided technical input and co-authorship of key documentation: technical site survey report, methods of procedure, solutions document, technical proposal, as-built, low-level design, root-cause analysis report, software acceptance tests, IoT test and hardware acceptance tests on Linux based servers and cloud technologies.",
+              "Performed hardware acceptance test, software acceptance test, IoT test, Service test and managed validation timeliness.",
+              "Managed subcontractors in delivering clients’ needs in projects.",
+              "Involved as Technical Lead for the projects which are all Linux and Red Hat Openstack based systems: vDNS Modernization 2021, vDNS Expansion 2022, and vDNS 10G Enhancement.",
+              "Also Involved on product-based projects like F5 Standalone and Flash Harmony project, vHarmony Project, NTG Wi-Fi Projects, North Star: SDS, F5DC IPv6 Implementation, BL460c Enhancement, and Infoblox DNS Cache 20th site project."
+            ] 
+          },
+          { 
+            role: "Systems Engineer / Developer", 
+            company: "FILASIA SYSTEMS TECH / PLAYQUBE I.T. SOLUTIONS - Philippines", 
+            companyUrl: "https://www.f6s.com/company/filasiasystemtechnologiesfast", 
+            period: "April 2017 – Oct 2019", 
+            achievements: [
+              "Managed and monitored all installed systems and infrastructure in Linux servers and cloudbased servers.",
+              "Integrated systems that include installation of operating system, application software and systems security, backup, and redundancy strategies based on project needs.",
+              "Performed basic data entry of telecommunications invoices into company databases.",
+              "Discussed the client’s requirements and the proposed solution with developers.",
+              "Composed documentation and operation manuals.",
+              "Further developing an AAA system and digital signage system which all Linux based products for the company.",
+              "Conducted product orientation and training on the client and partners of the existing systems of the company.",
+              "Involved on projects which all are running on Linux like Wireless Access Point on Governance in Cavite Project, Greenfield Wi-Fi Monetization Project, PlayQube TV Box Project and House of Representative VoIP and Wi-Fi Project."
+            ] 
+          }
         ];
 
         const EDUCATION = [
@@ -404,8 +521,8 @@
                   <div className="flex flex-col-reverse md:flex-row items-center justify-between gap-12">
                     <div className="space-y-6 max-w-3xl flex-1">
                       <p className="text-blue-400 font-mono text-lg">Hi, my name is</p>
-                      <h1 className="text-5xl sm:text-7xl font-bold text-slate-100 tracking-tight">{PERSONAL_INFO.name}.</h1>
-                      <h2 className="text-4xl sm:text-6xl font-bold text-slate-400 tracking-tight">{PERSONAL_INFO.title}.</h2>
+                      <h1 className="text-5xl sm:text-7xl font-bold text-slate-100 tracking-tight">{PERSONAL_INFO.name}</h1>
+                      <h2 className="text-4xl sm:text-6xl font-bold text-slate-400 tracking-tight">{PERSONAL_INFO.title}</h2>
                       <p className="text-lg text-slate-400 leading-relaxed max-w-2xl pt-4">{PERSONAL_INFO.subtitle} {PERSONAL_INFO.about.split('.')[0]}.</p>
                       <div className="flex flex-wrap gap-4 pt-8">
                         <button onClick={() => scrollTo('projects')} className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg font-medium transition-colors flex items-center gap-2">
@@ -666,6 +783,78 @@
                         <h4 className="text-lg font-semibold text-slate-100 mb-2 border-b border-slate-800 pb-2">Project Overview</h4>
                         <p className="text-slate-300 leading-relaxed">{selectedProject.article?.overview || selectedProject.description}</p>
                       </div>
+
+                      {selectedProject.article?.subProjects && (
+                        <div className="space-y-6 pt-4 border-t border-slate-800">
+                          <div className="flex items-center justify-between">
+                            <h4 className="text-xl font-bold text-slate-100">Featured Web Applications & Live Previews</h4>
+                            <span className="text-xs font-mono text-blue-400 bg-blue-500/10 px-3 py-1 rounded-full border border-blue-500/20">
+                              {selectedProject.article.subProjects.length} Live Sites
+                            </span>
+                          </div>
+                          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            {selectedProject.article.subProjects.map((sub, idx) => (
+                              <div key={idx} className="bg-slate-800/50 border border-slate-700/80 rounded-xl overflow-hidden flex flex-col hover:border-blue-500/50 transition-all shadow-lg">
+                                {/* Browser Preview Bar */}
+                                <div className="bg-slate-950 px-3 py-2 border-b border-slate-800 flex items-center justify-between gap-2">
+                                  <div className="flex items-center gap-1.5">
+                                    <span className="w-2.5 h-2.5 rounded-full bg-red-500/80"></span>
+                                    <span className="w-2.5 h-2.5 rounded-full bg-amber-500/80"></span>
+                                    <span className="w-2.5 h-2.5 rounded-full bg-emerald-500/80"></span>
+                                  </div>
+                                  <span className="text-[11px] font-mono text-slate-400 truncate max-w-[200px]">{sub.url}</span>
+                                  <a 
+                                    href={sub.url} 
+                                    target="_blank" 
+                                    rel="noopener noreferrer" 
+                                    className="text-blue-400 hover:text-blue-300 p-1"
+                                    title={`Open ${sub.title} in new tab`}
+                                  >
+                                    <ExternalLinkIcon className="w-3.5 h-3.5" />
+                                  </a>
+                                </div>
+                                {/* Live Embedded Iframe Preview */}
+                                <div className="relative h-52 w-full bg-slate-950 overflow-hidden">
+                                  <iframe 
+                                    src={sub.url} 
+                                    title={sub.title}
+                                    className="w-[200%] h-[200%] origin-top-left scale-50 border-0 pointer-events-none"
+                                    loading="lazy"
+                                  />
+                                  <a 
+                                    href={sub.url} 
+                                    target="_blank" 
+                                    rel="noopener noreferrer"
+                                    className="absolute inset-0 bg-slate-950/10 hover:bg-slate-950/40 transition-colors flex items-center justify-center group/overlay"
+                                  >
+                                    <span className="opacity-0 group-hover/overlay:opacity-100 transition-opacity bg-blue-600 text-white text-xs font-medium px-3 py-1.5 rounded-lg shadow-lg flex items-center gap-1.5">
+                                      Interact with Live Site <ExternalLinkIcon className="w-3.5 h-3.5" />
+                                    </span>
+                                  </a>
+                                </div>
+                                {/* Description & Action */}
+                                <div className="p-4 flex-1 flex flex-col justify-between space-y-3">
+                                  <div>
+                                    <div className="flex items-center justify-between gap-2 mb-1">
+                                      <h5 className="text-lg font-bold text-slate-100">{sub.title}</h5>
+                                      <span className="text-[10px] font-mono text-emerald-400 bg-emerald-400/10 px-2 py-0.5 rounded-full">{sub.tag}</span>
+                                    </div>
+                                    <p className="text-sm text-slate-300 leading-relaxed">{sub.description}</p>
+                                  </div>
+                                  <a 
+                                    href={sub.url} 
+                                    target="_blank" 
+                                    rel="noopener noreferrer" 
+                                    className="inline-flex items-center justify-center gap-2 w-full bg-slate-900 hover:bg-blue-600 text-blue-400 hover:text-white border border-slate-700 hover:border-blue-500 px-3 py-2 rounded-lg text-xs font-medium transition-colors"
+                                  >
+                                    <GlobeIcon className="w-3.5 h-3.5" /> Visit {sub.title}
+                                  </a>
+                                </div>
+                              </div>
+                            ))}
+                          </div>
+                        </div>
+                      )}
 
                       {/* Image Gallery & Explanation Section */}
                       {selectedProject.article?.images && (
