@@ -17,6 +17,9 @@
       .animate-spin { animation: spin 1s linear infinite; }
       @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
       .animate-in { animation: fadeIn 0.5s ease-out forwards; }
+      /* Terminal Cursor Blink */
+      @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
+      .cursor-blink { animation: blink 1s step-end infinite; }
     </style>
 </head>
 <body>
@@ -368,6 +371,20 @@
           const [activeSection, setActiveSection] = useState('home');
           const [imageFailed, setImageFailed] = useState(false);
 
+          // Hero CMD / Terminal Typing Effect States
+          const fullCmd = "C:\\Users\\Allen> init_portfolio.exe --profile";
+          const fullGreeting = "Hi, my name is";
+          const fullName = PERSONAL_INFO.name;
+          const fullTitle = PERSONAL_INFO.title;
+          const fullBio = `${PERSONAL_INFO.subtitle} ${PERSONAL_INFO.about.split('.')[0]}.`;
+
+          const [typedCmd, setTypedCmd] = useState('');
+          const [typedGreeting, setTypedGreeting] = useState('');
+          const [typedName, setTypedName] = useState('');
+          const [typedTitle, setTypedTitle] = useState('');
+          const [typedBio, setTypedBio] = useState('');
+          const [typingStep, setTypingStep] = useState(0);
+
           // Project Article Modal State
           const [selectedProject, setSelectedProject] = useState(null);
 
@@ -377,6 +394,52 @@
           const [isAnalyzing, setIsAnalyzing] = useState(false);
           const [analysisResult, setAnalysisResult] = useState(null);
           const [apiError, setApiError] = useState('');
+
+          useEffect(() => {
+            let timeout;
+            if (typingStep === 0) {
+              if (typedCmd.length < fullCmd.length) {
+                timeout = setTimeout(() => {
+                  setTypedCmd(fullCmd.slice(0, typedCmd.length + 1));
+                }, 25);
+              } else {
+                timeout = setTimeout(() => setTypingStep(1), 250);
+              }
+            } else if (typingStep === 1) {
+              if (typedGreeting.length < fullGreeting.length) {
+                timeout = setTimeout(() => {
+                  setTypedGreeting(fullGreeting.slice(0, typedGreeting.length + 1));
+                }, 35);
+              } else {
+                timeout = setTimeout(() => setTypingStep(2), 150);
+              }
+            } else if (typingStep === 2) {
+              if (typedName.length < fullName.length) {
+                timeout = setTimeout(() => {
+                  setTypedName(fullName.slice(0, typedName.length + 1));
+                }, 45);
+              } else {
+                timeout = setTimeout(() => setTypingStep(3), 180);
+              }
+            } else if (typingStep === 3) {
+              if (typedTitle.length < fullTitle.length) {
+                timeout = setTimeout(() => {
+                  setTypedTitle(fullTitle.slice(0, typedTitle.length + 1));
+                }, 45);
+              } else {
+                timeout = setTimeout(() => setTypingStep(4), 180);
+              }
+            } else if (typingStep === 4) {
+              if (typedBio.length < fullBio.length) {
+                timeout = setTimeout(() => {
+                  setTypedBio(fullBio.slice(0, typedBio.length + 2));
+                }, 12);
+              } else {
+                setTypingStep(5);
+              }
+            }
+            return () => clearTimeout(timeout);
+          }, [typingStep, typedCmd, typedGreeting, typedName, typedTitle, typedBio]);
 
           useEffect(() => {
             const handleScroll = () => {
@@ -516,13 +579,39 @@
               </nav>
 
               <main className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pt-16">
+                {}
                 <section id="home" className="min-h-[90vh] flex flex-col justify-center py-20">
                   <div className="flex flex-col-reverse md:flex-row items-center justify-between gap-12">
                     <div className="space-y-6 max-w-3xl flex-1">
-                      <p className="text-blue-400 font-mono text-lg">Hi, my name is</p>
-                      <h1 className="text-5xl sm:text-7xl font-bold text-slate-100 tracking-tight">{PERSONAL_INFO.name}</h1>
-                      <h2 className="text-4xl sm:text-6xl font-bold text-slate-400 tracking-tight">{PERSONAL_INFO.title}</h2>
-                      <p className="text-lg text-slate-400 leading-relaxed max-w-2xl pt-4">{PERSONAL_INFO.subtitle} {PERSONAL_INFO.about.split('.')[0]}.</p>
+                      {/* CMD Prompt Header */}
+                      <div className="inline-flex items-center gap-2 bg-slate-950/90 border border-slate-800 px-3.5 py-1.5 rounded-lg font-mono text-xs sm:text-sm text-emerald-400 shadow-inner">
+                        <TerminalIcon className="w-4 h-4 text-blue-400 shrink-0" />
+                        <span>{typedCmd}</span>
+                        {typingStep === 0 && <span className="inline-block w-2 h-4 bg-emerald-400 cursor-blink align-middle"></span>}
+                      </div>
+
+                      <p className="text-blue-400 font-mono text-lg min-h-[1.75rem]">
+                        {typedGreeting}
+                        {typingStep === 1 && <span className="inline-block w-2.5 h-5 bg-blue-400 ml-1 cursor-blink align-middle"></span>}
+                      </p>
+
+                      <h1 className="text-5xl sm:text-7xl font-bold text-slate-100 tracking-tight min-h-[3.5rem] sm:min-h-[4.5rem]">
+                        {typedName}
+                        {typingStep === 2 && <span className="inline-block w-3 sm:w-4 h-10 sm:h-14 bg-blue-400 ml-1.5 cursor-blink align-middle"></span>}
+                      </h1>
+
+                      <h2 className="text-4xl sm:text-6xl font-bold text-slate-400 tracking-tight min-h-[2.75rem] sm:min-h-[3.75rem]">
+                        {typedTitle}
+                        {typingStep === 3 && <span className="inline-block w-3 sm:w-4 h-8 sm:h-12 bg-slate-400 ml-1.5 cursor-blink align-middle"></span>}
+                      </h2>
+
+                      <p className="text-lg text-slate-400 leading-relaxed max-w-2xl pt-4 font-mono sm:font-sans min-h-[4.5rem]">
+                        {typedBio}
+                        {(typingStep === 4 || typingStep === 5) && (
+                          <span className="inline-block w-2.5 h-5 bg-emerald-400 ml-1.5 cursor-blink align-middle"></span>
+                        )}
+                      </p>
+
                       <div className="flex flex-wrap gap-4 pt-8">
                         <button onClick={() => scrollTo('projects')} className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg font-medium transition-colors flex items-center gap-2">
                           View Projects <ChevronRightIcon className="w-4 h-4" />
