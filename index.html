@@ -17,8 +17,7 @@
       .animate-spin { animation: spin 1s linear infinite; }
       @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
       .animate-in { animation: fadeIn 0.5s ease-out forwards; }
-      /* Terminal Cursor Blink */
-      @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
+      @keyframes blink { 0%, 49% { opacity: 1; } 50%, 100% { opacity: 0; } }
       .cursor-blink { animation: blink 1s step-end infinite; }
     </style>
 </head>
@@ -28,6 +27,7 @@
     <script type="text/babel">
         const { useState, useEffect } = React;
 
+        // --- INLINE SVG ICONS ---
         const Icon = ({ children, className }) => (
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}>
                 {children}
@@ -54,13 +54,18 @@
         const HeartIcon = ({ className }) => <Icon className={className}><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"></path></Icon>;
         const GamepadIcon = ({ className }) => <Icon className={className}><line x1="6" y1="12" x2="10" y2="12"></line><line x1="8" y1="10" x2="8" y2="14"></line><line x1="15" y1="13" x2="15.01" y2="13"></line><line x1="18" y1="11" x2="18.01" y2="11"></line><rect x="2" y="6" width="20" height="12" rx="2"></rect></Icon>;
         const ShieldAlertIcon = ({ className }) => <Icon className={className}><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></Icon>;
+        const PaletteIcon = ({ className }) => <Icon className={className}><circle cx="13.5" cy="6.5" r=".5"></circle><circle cx="17.5" cy="10.5" r=".5"></circle><circle cx="8.5" cy="7.5" r=".5"></circle><circle cx="6.5" cy="12.5" r=".5"></circle><path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10c.926 0 1.648-.746 1.648-1.688 0-.437-.18-.835-.437-1.125-.29-.289-.438-.652-.438-1.125a1.64 1.64 0 0 1 1.668-1.668h1.996c3.051 0 5.555-2.503 5.555-5.554C21.965 6.012 17.461 2 12 2z"></path></Icon>;
+        const CarIcon = ({ className }) => <Icon className={className}><path d="M14 16H9m10 0h3v-3.15a1 1 0 0 0-.84-.99L16 11l-2.7-3.6a1 1 0 0 0-.8-.4H5.24a2 2 0 0 0-1.8 1.1l-.8 1.63A6 6 0 0 0 2 12.42V16h2"></path><circle cx="6.5" cy="16.5" r="2.5"></circle><circle cx="16.5" cy="16.5" r="2.5"></circle></Icon>;
+        const FilmIcon = ({ className }) => <Icon className={className}><rect x="2" y="2" width="20" height="20" rx="2.18" ry="2.18"></rect><line x1="7" y1="2" x2="7" y2="22"></line><line x1="17" y1="2" x2="17" y2="22"></line><line x1="2" y1="12" x2="22" y2="12"></line><line x1="2" y1="7" x2="7" y2="7"></line><line x1="2" y1="17" x2="7" y2="17"></line><line x1="17" y1="17" x2="22" y2="17"></line><line x1="17" y1="7" x2="22" y2="7"></line></Icon>;
 
+        // --- DATA ---
         const PERSONAL_INFO = {
           name: "Allen Albert T. Varias",
           title: "Systems Engineer",
           subtitle: "Specialized in designing and managing robust Linux environments.",
-          verse: '"It is the glory of God to conceal a matter; to search out a matter is the glory of kings." — Proverbs 25:2',
           about: "With over 6 years of experience in enterprise-level IT infrastructure, I am a hard-working and committed systems engineer eager to make a positive contribution to the customer experience. My technical foundation is rooted in Red Hat Enterprise Linux (RHEL), Ansible automation, and Cloud Orchestration. I specialize in building stable, scalable, and automated environments, from rack-and-stack deployments to high-level system architecture. I am currently based in Auckland, NZ, holding an Open Work Visa valid until Dec 2027.",
+          verseText: '"It is the glory of God to conceal a matter; to search out a matter is the glory of kings."',
+          verseRef: "Proverbs 25:2",
           email: "allenvarias@gmail.com",
           github: "https://github.com/AlVarias",
           linkedin: "https://linkedin.com/in/allen-albert-varias/",
@@ -74,84 +79,86 @@
           { category: "Hardware & Infrastructure", items: ["Rack and Stack", "Power & Network Cabling", "Server Deployment", "Computer System Integration"], icon: <ServerIcon className="w-6 h-6 text-purple-400" /> },
           { category: "Automation & DevOps", items: ["Ansible Playbooks", "Shell Scripting", "Software Application Building"], icon: <CodeIcon className="w-6 h-6 text-emerald-400" /> },
           { category: "Networking & Security", items: ["Network Infrastructure", "Network Documentation", "Redundancy Strategies"], icon: <TerminalIcon className="w-6 h-6 text-yellow-400" /> },
-          { category: "Creative & Media", items: ["Photoshop Designing", "Video Editing", "Canva Designing Tool", "CapCut"], icon: <CpuIcon className="w-6 h-6 text-pink-400" /> },
+          { category: "Creative Design & Video Editing", items: ["Designing on Photoshop", "Video Editing", "Canva Designing Tool", "CapCut"], icon: <PaletteIcon className="w-6 h-6 text-pink-400" /> },
           { category: "Operations & ITSM", items: ["Systems Troubleshooting", "Root Cause Analysis (RCA)", "Hardware/Software Acceptance Tests", "Project Team Leading"], icon: <CpuIcon className="w-6 h-6 text-red-400" /> },
         ];
 
         const PROJECTS = [
           { 
             title: "Personal Portfolio & Digital Card", 
-            description: "Designed and developed a responsive, interactive personal portfolio website, digital business card, and a suite of custom web applications hosted on GitHub Pages.", 
+            description: "Designed and developed a responsive, interactive personal portfolio website, digital business card, and a collection of custom web applications hosted on GitHub Pages.", 
             techStack: ["React", "Tailwind CSS", "Gemini API", "GitHub Pages"], 
             link: "https://alvarias.github.io/links/", 
             github: "https://github.com/AlVarias",
             article: {
               role: "Creator & Full-Stack Developer",
-              overview: "Created a modern, responsive personal portfolio, digital business card, and a collection of interactive web applications hosted on GitHub Pages—ranging from culinary showcases and digital event invitations to web-based photo booths and storytelling platforms.",
+              overview: "Designed and built an ecosystem of modern, responsive web applications hosted on GitHub Pages—ranging from my interactive portfolio and NFC/QR Digital Business Card to custom culinary, event invitation, photo booth, and storytelling web apps.",
               subProjects: [
                 {
                   title: "Love & Luto",
                   url: "https://alvarias.github.io/love-and-luto/",
-                  tag: "Culinary & Recipe Web App",
-                  description: "An interactive culinary passion project and recipe collection exploring authentic home-cooked dishes, kitchen stories, and flavors."
+                  tag: "Culinary & Recipe Hub",
+                  description: "A dedicated culinary showcase and interactive recipe platform exploring authentic Filipino dishes, homemade breads (pandesal, ensaymada, focaccia), and kitchen creations."
                 },
                 {
                   title: "Digital Event Invitation",
                   url: "https://alvarias.github.io/invitation/",
-                  tag: "Interactive Event Microsite",
-                  description: "A responsive, mobile-friendly digital invitation web application featuring smooth animations, event schedule details, and interactive guest information."
+                  tag: "Interactive Event Web App",
+                  description: "An elegant, mobile-responsive digital invitation platform featuring event schedules, venue maps, countdowns, and seamless guest RSVP functionality."
                 },
                 {
                   title: "VibeShoot",
                   url: "https://alvarias.github.io/vibeshoot/",
-                  tag: "Creative Media & Photography",
-                  description: "A sleek photography and visual media showcase web application designed with modern UI layouts, dynamic galleries, and smooth visual transitions."
+                  tag: "Web Photo Booth Studio",
+                  description: "A browser-based interactive photo booth studio allowing users to capture, style, and frame multi-shot photo strips with custom layouts directly from their device camera."
                 },
                 {
                   title: "VibeSnap",
                   url: "https://alvarias.github.io/vibesnap/",
-                  tag: "Web Photo Booth & Snapshot App",
-                  description: "A fast, interactive browser-based snapshot and photo booth web app built for capturing, styling, and sharing memorable moments."
+                  tag: "Instant Snapshot & Filter App",
+                  description: "A fast, lightweight web camera and snapshot utility designed for instant event photography, custom overlays, and one-click photo downloads."
                 },
                 {
                   title: "Variastoria",
                   url: "https://alvarias.github.io/variastoria/",
-                  tag: "Storytelling & Visual Chronicle",
-                  description: "A personal storytelling and digital chronicle platform crafted with an engaging, distraction-free reading and visual timeline interface."
+                  tag: "Personal Story & Timeline",
+                  description: "An interactive storytelling and digital memory lane chronicling milestones, travel adventures across New Zealand and the Philippines, and family moments."
                 }
               ],
               details: [
-                "Built a fast, single-file React 18 portfolio application styled with Tailwind CSS and custom inline SVG icons.",
+                "Built fast, zero-dependency React and HTML/Tailwind CSS web applications deployed via GitHub Pages.",
                 "Integrated the Google Gemini API with structured JSON schema outputs to dynamically evaluate job descriptions against my resume.",
-                "Connected a companion mobile-first Digital Business Card (alvarias.github.io/links) and 5 custom web applications on GitHub Pages."
+                "Connected a companion mobile-first Digital Business Card (alvarias.github.io/links) for instant networking."
               ]
             }
           },
           { 
             title: "Data Center Rack & Stack Deployment", 
-            description: "Executed end-to-end physical server rack-and-stack installations, structured network cabling (Cat6/Fiber), and redundant dual-PDU power cable routing for enterprise data center environments.", 
-            techStack: ["Rack & Stack", "Network Cabling", "Power Cabling", "Server Deployment"], 
+            description: "Executed end-to-end physical server rack-and-stack installations, structured network cabling (Cat6/Fiber), and redundant dual-PDU power cable routing on raised floors.", 
+            techStack: ["Rack & Stack", "Network Cabling", "Power Cabling", "Raised Floor"], 
             link: "#", 
             github: "https://github.com/AlVarias",
             article: {
               role: "Systems & Infrastructure Engineer",
+              overview: "Led physical layer (Layer 1) data center deployments across enterprise server rooms, handling bare-metal cabinet positioning, blade chassis installation, underfloor raised-floor network/power cable routing, breaker termination, and optical light-level testing.",
               isPrivateCaseStudy: true,
-              disclaimer: "DISCLAIMER: This is private enterprise stuff and only for portfolio examples and demonstration purposes. All photos shown on this page are from actual on-site data center rack-and-stack, network cabling, and power installation work.",
+              disclaimer: "This is private enterprise material and is shown strictly as portfolio examples. All pictures below belong to this project.",
               images: [
-                { url: "20210415_110135.jpg", title: "1. Physical Server Cabinet Positioning & Assembly on Raised Floor", caption: "Wearing protective data center coveralls and safety gloves inside the server room, my teammate and I position and assemble a full-height 42U enterprise server cabinet on the raised floor tiles. Inside the frame are vertical cable management ladders and heavy-duty industrial power plugs ready for PDU mounting." },
-                { url: "20210525_135503.jpg", title: "2. Populated Tripp-Lite Server Rack — Network Switches & HPE Blade Chassis", caption: "Front view of the completed Tripp-Lite rack cabinet. The top of the rack houses dual network switches neatly dressed with labeled blue Cat6 patch cables and yellow fiber uplinks, while the bottom section houses two high-density HPE BladeSystem server enclosures with all drive bays and blades online." },
-                { url: "20210202_174123.jpg", title: "3. Raised Floor Underfloor Cable Trench — Network, Fiber & Power Segregation", caption: "Full-length view down the open raised floor trench along the server rack row. Shows how we routed and segregated heavy-gauge black power feeder cables, blue conduits, copper data bundles, and a dedicated yellow fiber raceway." },
-                { url: "20210202_172022.jpg", title: "4. Hands-On Underfloor Power & Grounding Cable Routing", caption: "First-person view of pulling, dressing, and zip-tying heavy-gauge black power feeder cables underneath raised floor tiles alongside yellow/grey data cables and green copper grounding/bonding wires." },
-                { url: "20210129_182136.jpg", title: "5. Heavy-Gauge Power Cable Preparation & Circuit Breaker Termination", caption: "Close-up of hands-on electrical work: stripping the outer jacket of a thick power feeder cable and routing conductors through slotted PVC trunking into multi-pole ABB and Nader circuit breakers with chassis earth grounding." },
-                { url: "20210202_195812.jpg", title: "6. In-Rack Power Distribution Panel (ABB Breakers & Busbars) & Switch Patching", caption: "Inside view of the rack's power distribution enclosure located directly beneath an active network switch, featuring labeled ABB main and branch circuit breakers wired to solid copper busbars feeding redundant power." },
-                { url: "20210204_010242.jpg", title: "7. Telecom DC Power Plant Digital Controller Verification (890A Load)", caption: "Verifying the main DC power plant Digital Controller. The LCD confirms healthy operation: RectifierCurrent at 890A, RectifierError at 0, Rect.Capacity at 35%, and a green 'SYSTEM NORMAL' status indicator." },
-                { url: "20210204_010148.jpg", title: "8. Modular UPS / Inverter Output Verification (Vout=230V, Iout=32A)", caption: "Checking live AC power output on the modular inverter/UPS rack unit during acceptance testing, confirming a stable 230V AC output voltage and 32A load current." }
+                { url: "20210415_110135.jpg", title: "1. Physical Server Cabinet Positioning & Assembly on Raised Floor", caption: "Working inside the data center in cleanroom coveralls to position, level, and secure a full-height enterprise server rack frame onto the raised floor tiles." },
+                { url: "20210525_135503.jpg", title: "2. Populated Tripp-Lite Server Rack: Switches, Patch Panels & HPE Blade Enclosures", caption: "Completed front elevation of a Tripp-Lite rack cabinet housing dual Top-of-Rack network switches with labeled blue Cat6 patch cords at the top, blanking panels for thermal airflow control in the middle, and two fully populated HPE BladeSystem c7000 enclosures at the bottom with all green drive/health LEDs." },
+                { url: "20210202_174123.jpg", title: "3. Raised Floor Underfloor Trench: Network, Fiber & Power Cable Segregation", caption: "Opened raised-floor tile channel showing structured underfloor cable management: yellow corrugated fiber optic raceways along the right side, bundled blue and grey copper data trunks in the center, and heavy black power feeds segregated to prevent electromagnetic interference (EMI)." },
+                { url: "20210202_172022.jpg", title: "4. Hands-On Underfloor Power Feeder & Grounding Cable Routing", caption: "Routing and dressing heavy-gauge black power feeder cables, grey/yellow control lines, and green copper grounding wires inside the metal cable trays beneath the data center raised floor." },
+                { url: "20210129_182136.jpg", title: "5. Heavy-Gauge Power Cable Stripping & ABB Circuit Breaker Termination", caption: "Hands-on electrical termination inside a power distribution box—stripping heavy black insulated power cables and wiring them into DIN-rail mounted ABB and Nader circuit breakers via slotted wiring ducts." },
+                { url: "20210202_195812.jpg", title: "6. In-Rack Power Distribution Panel (PDP) & Active Switch Port Patching", caption: "Interior cabinet view showing the open white Power Distribution Panel (with MAIN1/MAIN2/MAIN3 ABB circuit breakers, labeled branch breakers, and heavy copper busbars) mounted below an active network switch populated with individually tagged Cat6 cables and green link LEDs." },
+                { url: "20210204_010242.jpg", title: "7. Telecom DC Power Plant Digital Controller Verification", caption: "Verifying the main telecom rectifier power plant status on the Digital Controller LCD panel: RectifierCurrent at 890A, 0 Rectifier Errors, 35% Rectifier Capacity load, and green 'SYSTEM NORMAL' status." },
+                { url: "20210204_010148.jpg", title: "8. Modular UPS / Inverter Output Load Verification (230V / 32A)", caption: "Checking the live AC power output on the red modular inverter/UPS LCD display confirming a stable Vout = 230V and Iout = 32A supplying the server cabinets." },
+                { url: "IMG_20200206_143739.jpg", title: "9. Fiber Optic Attenuation & Light-Level Testing (1310nm @ -4.04 dBm)", caption: "Conducting optical power meter and light source testing at 1310nm wavelength on yellow LC/UPC single-mode duplex fiber patch cables, verifying a clean -4.04 dBm signal level prior to connecting core switch uplinks." }
               ],
               details: [
-                "Physical Rack & Stack: Mounted enterprise rackmount servers, blade chassis, storage arrays, and Top-of-Rack (ToR) switches following rack elevation diagrams and thermal airflow standards.",
-                "Network Cable Installation: Installed, dressed, labeled, and tested Cat6 copper and single-mode fiber optic patch cables across patch panels, switches, and underfloor raceways.",
-                "Redundant Power Cabling: Pulled underfloor power feeders, terminated conductors into ABB/Nader breaker panels and copper busbars, and balanced loads across redundant PDUs, DC rectifiers, and UPS systems.",
-                "Acceptance Testing: Conducted optical power meter loss tests, breaker load checks, hardware burn-in tests, and port mapping documentation."
+                "Physical Rack & Stack: Positioned server cabinets and mounted HPE BladeSystem chassis, rackmount servers, and Top-of-Rack switches following rack elevation diagrams.",
+                "Raised Floor Cabling: Pulled, dressed, and segregated underfloor heavy power feeders, green grounding cables, Cat6 copper bundles, and yellow fiber optic raceways.",
+                "Power & Breaker Termination: Wired and verified in-rack Power Distribution Panels (ABB breakers and copper busbars), 890A DC rectifier plants, and 230V/32A UPS feeds.",
+                "Fiber & Copper Acceptance Testing: Performed 1310nm optical light-level verification (-4.04 dBm) and point-to-point cable labeling."
               ]
             }
           },
@@ -163,97 +170,102 @@
             github: "https://github.com/AlVarias",
             article: {
               role: "Technical Lead / Associate Systems Engineer II",
+              overview: "Served as Technical Lead for major carrier-grade telecommunications initiatives—vDNS Modernization 2021, vDNS Expansion 2022, and vDNS 10G Enhancement.",
               isPrivateCaseStudy: true,
-              disclaimer: "DISCLAIMER: This is private enterprise stuff and only for portfolio examples and demonstration purposes.",
+              disclaimer: "This is private enterprise material and is shown strictly as portfolio examples. All pictures and diagrams below belong to this project.",
               images: [
-                { url: "IMG-aaeac1636e2c461e4e7e163d5ca389ff-V.jpg", title: "1. Local UE to Local DNS (No NAT) Call Flow Diagram", caption: "Illustrates the end-to-end network path from User Equipment (UE) through vUGW, Top-of-Rack (EOR) routers, vMSE, vCGNAT, PeC edge switches, and Dell EOR into the core vDNS cluster using Anycast and VRF routing." },
-                { url: "IMG-ea3d84134f80e7af6a303265f3f4b832-V.jpg", title: "2. vDNS Testbed Current Architecture", caption: "Multi-region NTG NFVI testbed topology showing redundant Grid Masters, Cache DNS, APN DNS, IMS DNS, and subscriber gateways (BNG, UGW, USN)." },
-                { url: "IMG-ade5df317246222478a4af134db8cc64-V.jpg", title: "3. Multi-Region Enterprise Topology (NLZ, SLZ, VizMin)", caption: "Comprehensive national architecture schematic mapping primary and standby reporting links between Tarlac, Gen Tri, CDD, and VisMin regional NFVI data centers." },
-                { url: "IMG-2211fbdee6252e42de75e7d8e7aa54ed-V.jpg", title: "4. Wireshark Packet Trace Analysis", caption: "Packet capture examining DNS queries and responses. Highlights queries checking SOA records (e.g., illegal_drugs.local) and security policy rejections." },
-                { url: "IMG-d3f70596f519ecc546ce1b5b0e74cbe8-V.jpg", title: "5. Subscriber Interface Trace (vMSE)", caption: "Message detail info showing Uplink data packet flow, IP/UDP header checksums, source/destination UL addresses, and EPSN subscriber trace logs." },
-                { url: "IMG-cd6b4efe03fb6e18c39918421dda6133-V.jpg", title: "6. OpenStack Environment Dashboard", caption: "OpenStack agent compute node status and resource allocation dashboard showing QEMU hypervisor hosts, vCPU counts, and memory allocation." },
-                { url: "IMG-ea3704e6647b6fd4be24947b6b6d4d75-V.jpg", title: "7. vDNS Grid Testbed Management", caption: "Infoblox Grid management interface listing running virtual DNS members with GEOIP and database version tracking." },
-                { url: "IMG-695b68c5a5e864b654862013e9c8b2c1-V.jpg", title: "8. Infoblox Grid Status & Member Dashboard", caption: "Grid status overview showing green health indicators for DHCP, DNS, DFP, and Threat Protection across active member IP addresses." },
-                { url: "IMG-61c03da38ebc3154fa2e7f4b28138797-V.jpg", title: "9. System Activity Monitor & Resource Usage", caption: "Grid Master hardware status (IB-V2215, HA OK) with real-time CPU usage (11%), memory usage (14%), database usage (36%), and CPU utilization graphs." },
-                { url: "IMG20220706133842.jpg", title: "10. Dell EMC 10G/25G SFP28 Optical Transceiver", caption: "Dell EMC SFP28 Short-Range optical transceiver module deployed into server NICs and ToR Dell switches during the vDNS 10G Enhancement project." },
-                { url: "IMG-f3b6bd38d9b6109937da6d9639bc86dc-V.jpg", title: "11. Infoblox DNS Statistics & Cache Hit Performance Dashboard", caption: "Real-time DNS query resolution metrics tracking Success, Recursion, NXDomain, and NXRRSet performance." },
-                { url: "IMG-5671ca52c3fa8221b778d3c14d51712b-V.jpg", title: "12. On-Site Live Mobile Phone (UE) & CPE DNS Testing in Data Center", caption: "Photo of me inside the data center lab performing end-to-end User Acceptance Testing (UAT) and live DNS resolution checks across multiple mobile phones (UEs) and Home Broadband CPE routers." }
+                { url: "IMG-aaeac1636e2c461e4e7e163d5ca389ff-V.jpg", title: "1. Architecture Diagram: Local UE to Local DNS (No NAT)", caption: "Illustrates the end-to-end network path from User Equipment (UE) through vUGW, Top-of-Rack (HT EOR) routers, vMSE, vCGNAT, PEc edge switches, and Dell EOR (VLAN 300) into the core vDNS cluster using Anycast and VRF_NFV_x_CACHE routing across ATHOME_D, GOMO_D, HBB_D, and 5GHOME_D services." },
+                { url: "IMG-ea3d84134f80e7af6a303265f3f4b832-V.jpg", title: "2. vDNS Testbed Current Architecture", caption: "Depicts the NTG NFVI (Testbed 1 & Testbed 2) and ITS NFVI architecture, showing primary/standby synchronization between the Grid Master (gold crown), Grid Master Candidate (silver crown), Reporter nodes, and virtual DNS instances (Cache DNS, APN DNS, IMS DNS) connected to BNG, UGW, vDGW, and USN gateways." },
+                { url: "IMG-ade5df317246222478a4af134db8cc64-V.jpg", title: "3. Multi-Region Production NFVI Topology (NLZ, SLZ, VizMin)", caption: "Maps the nationwide high-availability vDNS deployment across Tarlac NFVI, Gen Tri NFVI (Primary Grid Master), and CDO NFVI, distributing DNS services across NLZ Region, NLZ+SLZ Region, and VizMin Region (CDO, Lahug, Bacolod, and Butuan NFVI sites)." },
+                { url: "IMG-2211fbdee6252e42de75e7d8e7aa54ed-V.jpg", title: "4. Wireshark Packet Trace Analysis (DNS Policy Filtering)", caption: "Packet capture filtering on dns.qry.name over IPv6 (2001:fd8:330:4::7 to 2001:fd8:2242:1::4), verifying that SOA queries for restricted domains (illegal_drugs.local) return a 'Refused' response in under 1 millisecond as enforced by Response Policy Zones (RPZ)." },
+                { url: "IMG-d3f70596f519ecc546ce1b5b0e74cbe8-V.jpg", title: "5. Subscriber Interface Trace (BTN_BUT_vMSE_01)", caption: "Deep-packet EPSN Subscriber Trace inspecting 'Send Uplink Data' (EPSN->NAT), verifying UDP header checksums, source IP (10.22.50.68), destination DNS IP (198.41.0.4), and raw hex payload." },
+                { url: "IMG-cd6b4efe03fb6e18c39918421dda6133-V.jpg", title: "6. Red Hat OpenStack Environment Hypervisor Dashboard", caption: "Monitoring dashboard for OpenstackAgent:gtcprdpthosp111:S in regionOne, tracking QEMU compute hypervisors (84 to 96 vCPUs and ~754 GB RAM per host) and VM flavor allocations." },
+                { url: "IMG-ea3704e6647b6fd4be24947b6b6d4d75-V.jpg", title: "7. Infoblox vDNS Grid Testbed 1 Member Management", caption: "Infoblox Grid Manager Data Management view showing virtual DNS members (vapndns_01/02, vcachedns_01/02, vgridmaster_01/02, vimsdns_01) all in 'Running' state with synchronized GeoIP and EA databases." },
+                { url: "IMG-695b68c5a5e864b654862013e9c8b2c1-V.jpg", title: "8. Infoblox Production vDNS Grid Status Dashboard", caption: "Production Grid Status view confirming green health indicators across DNS, NTP, Reporting, Threat Protection, and DNS Cache Acceleration, with Grid Master gnr_gtr_vgridmaster.globe.com.ph (IB-V2215, HA OK) running continuously for 132+ days." },
+                { url: "IMG-61c03da38ebc3154fa2e7f4b28138797-V.jpg", title: "9. Production Grid Master System Activity & Telemetry", caption: "Real-time hardware and resource telemetry for the production Grid Master showing 134d 14h 35m uptime, 11% CPU usage, 14% Memory usage, 36% Database capacity usage, and steady System Activity Monitor graphs." },
+                { url: "IMG20220706133842.jpg", title: "10. Dell EMC 10G/25G SFP28 Optical Transceiver (vDNS 10G Enhancement)", caption: "Close-up hardware inspection of the Dell EMC SFP28 optical transceiver module (Model: S28-10G-25G-SR-85C, DP/N: 0M14MK, 850nm short-range fiber optic transceiver) used to upgrade server NICs and Top-of-Rack Dell switches for the vDNS 10G Enhancement project." },
+                { url: "IMG-f3b6bd38d9b6109937da6d9639bc86dc-V.jpg", title: "11. Infoblox DNS Statistics & Cache Hit Performance Dashboard", caption: "Infoblox DNS Statistics telemetry for mkt_val_vcachedns_01_tb.globe.com.ph showing real-time query resolution breakdown: 896,193 Successful responses, 673,066 Recursive queries, 162,330 NXDomain, 44,723 NXRRSet, 148 Referrals, and 0 Failures—validating zero packet loss during testbed validation." },
+                { url: "IMG-5671ca52c3fa8221b778d3c14d51712b-V.jpg", title: "12. On-Site Live Mobile Phone (UE) & Broadband CPE DNS Testing in Data Center", caption: "Photo of me inside the data center lab conducting live end-to-end subscriber DNS acceptance testing across multiple mobile smartphones and 4G/5G Home Broadband (HBB) CPE routers simultaneously to verify real-world query resolution, Anycast routing, and RPZ domain filtering." }
               ],
               details: [
                 "Deployed and scaled virtualized DNS infrastructure on Red Hat OpenStack Platform (RHOSP) across production carrier environments.",
                 "Created project-specific Ansible playbooks to automate Linux server post-installation, configuration, and security hardening.",
-                "Engineered the 10GbE network throughput upgrade and executed Hardware/Software Acceptance Tests (HAT/SAT).",
+                "Engineered the 10GbE network throughput upgrade (installing Dell EMC 10G/25G SFP28 optical transceivers) and executed Hardware/Software Acceptance Tests (HAT/SAT) and live mobile UE/CPE DNS validation.",
                 "Co-authored Low-Level Designs (LLD), Root-Cause Analysis (RCA) reports, and technical proposals."
               ]
             }
           },
           { 
             title: "House of Representatives VoIP & Wi-Fi", 
-            description: "Designed, installed, and integrated server infrastructure, system security, and redundancy strategies for the Philippine House of Representatives.", 
-            techStack: ["Linux", "Networking", "System Security"], 
+            description: "Designed, installed, and integrated server infrastructure, fiber optic backbone splicing, outdoor wireless sector antennas, and redundancy strategies for the Philippine House of Representatives.", 
+            techStack: ["Linux", "Fiber Splicing", "VoIP & Wi-Fi", "System Security"], 
             link: "#", 
             github: "https://github.com/AlVarias",
             article: {
               role: "Systems Engineer / Integrator",
+              overview: "Designed, installed, and integrated high-availability Linux server infrastructure, fiber optic campus backbones, rooftop wireless sector antennas, and VoIP communications for the Philippine House of Representatives.",
               isPrivateCaseStudy: true,
-              disclaimer: "DISCLAIMER: This is private enterprise stuff and only for portfolio examples and demonstration purposes.",
+              disclaimer: "This is private enterprise material and is shown strictly as portfolio examples. All pictures below belong to this project.",
               images: [
-                { url: "IMG_20180227_151322.jpg", title: "1. Server Room Staging & Hardware Setup", caption: "Staging core infrastructure on the raised floor in front of Cisco Catalyst cabinets (RAID-1 SSD server, mbox gateway, switch, and wireless access point being provisioned via laptop)." },
-                { url: "IMG_20180723_095250.jpg", title: "2. Dell PowerEdge 2950 Server Deployment", caption: "Close-up of the rack-mounted Dell PowerEdge 2950 server running backend Linux services with healthy status LEDs during hardware acceptance." },
-                { url: "IMG_20190110_165335.jpg", title: "3. Rooftop Outdoor Wireless Antenna Installation", caption: "Mounting outdoor sector antennas and securing weatherproof RF coaxial and network feeder cables on the rooftop pipe rack." },
-                { url: "IMG_20190320_112514.jpg", title: "4. Precision Fiber Optic Fusion Splicing", caption: "Performing single-mode fiber optic fusion splicing using a digital arc fusion splicer to establish high-speed optical backbone links." },
-                { url: "IMG_20190320_115050.jpg", title: "5. Fiber ODF & VFL Laser Testing", caption: "Inside the Fiber ODF patch panel showing splice trays, yellow LC/SC patch cords, and an active red Visual Fault Locator (VFL) laser beam verifying continuity." }
+                { url: "IMG_20180227_151322.jpg", title: "1. On-Site Server Room Staging, RAID-1 Configuration & Gateway Integration", caption: "On-site staging inside the House of Representatives data center on the perforated raised floor—configuring a 1U rackmount server ('120GB x 2 SSD RAID 1'), mbox network gateway appliance, rackmount PoE switch, and wireless access point via laptop in front of the core Cisco Catalyst chassis cabinets." },
+                { url: "IMG_20180723_095250.jpg", title: "2. Dell PowerEdge 2950 Rackmount Server Deployment & Health Check", caption: "Close-up verification of the rack-mounted Dell PowerEdge 2950 enterprise server inside the equipment cabinet, showing green power and drive carrier status LEDs alongside the front LCD diagnostic readout panel." },
+                { url: "IMG_20190110_165335.jpg", title: "3. Rooftop Outdoor Wireless Sector Antenna & Coax Cabling Installation", caption: "Working along the exterior building catwalk to mount and align high-gain outdoor wireless sector antennas on steel masts, securing dual weatherproof coaxial feeder jumpers and grounding loops for campus-wide wireless coverage." },
+                { url: "IMG_20190320_112514.jpg", title: "4. Precision Fiber Optic Fusion Splicing for Campus Backbone", caption: "Operating a digital fiber optic fusion splicer on-site to align, cleave, and fusion-splice single-mode glass fiber strands, complete with live splice-screen inspection and thermal heat-shrink protection sleeves." },
+                { url: "IMG_20190320_115050.jpg", title: "5. Fiber Optic Distribution Frame (ODF) Splice Tray & Visual Fault Locator (VFL) Testing", caption: "Dressing spliced fiber pigtails inside a rackmount 24-port SC/LC Optical Distribution Frame (ODF) patch panel while injecting a red Visual Fault Locator (VFL) laser beam (visible glowing red at the center splice sleeve) to verify fiber continuity and zero micro-bends." }
               ],
               details: [
-                "Installed and configured Linux-based servers hosting the core VoIP PBX and wireless network management controllers.",
-                "Implemented system security hardening, firewall policies, backup automation, and failover redundancy strategies.",
-                "Conducted on-site hardware integration, acceptance testing, and operational handover training for internal IT staff."
+                "Staged, configured, and rack-mounted Linux servers (including RAID-1 SSD arrays and Dell PowerEdge servers), mbox gateways, and core switches.",
+                "Performed precision fiber optic fusion splicing, ODF patch panel termination, and Visual Fault Locator (VFL) laser continuity testing across the legislative complex.",
+                "Mounted and aligned rooftop outdoor sector antennas and indoor wireless access points for seamless roaming.",
+                "Implemented system security hardening, firewall policies, backup automation, and failover redundancy strategies."
               ]
             }
           },
           { 
             title: "Custom AAA & Digital Signage Systems", 
-            description: "Dedicated Linux-based AAA (Authentication, Authorization, and Accounting) platform and interactive digital signage kiosk solutions developed for FilAsia Systems Tech.", 
-            techStack: ["Linux", "Shell Scripting", "FreeRADIUS", "MySQL"], 
+            description: "Developed and maintained custom Linux-based AAA (Authentication, Authorization, and Accounting) systems, FreeRADIUS/ChilliSpot portals, and interactive digital signage kiosks for FilAsia Systems Tech.", 
+            techStack: ["Linux", "FreeRADIUS", "Shell Scripting", "Digital Signage"], 
             link: "#", 
             github: "https://github.com/AlVarias",
             article: {
               role: "Systems Engineer / Developer",
+              overview: "Built and maintained custom Linux server appliances powering commercial Wi-Fi Authentication, Authorization, and Accounting (AAA) with FreeRADIUS/ChilliSpot bandwidth control, automated SQL database backups, and interactive touchscreen digital signage & Wi-Fi vending kiosks.",
               isPrivateCaseStudy: true,
-              disclaimer: "DISCLAIMER: This is private enterprise stuff and only for portfolio examples and demonstration purposes.",
+              disclaimer: "This is private enterprise material and is shown strictly as portfolio examples. All pictures and the video below belong to this project.",
               images: [
-                { url: "IMG_20190503_153424.jpg", title: "1. FreeRADIUS & ChilliSpot AAA Packet Trace", caption: "Live debug output processing subscriber authentication, Access-Accept responses, session timeouts, and WISPr 100Mbps bandwidth tier policies." },
-                { url: "IMG_20190503_150911.jpg", title: "2. Root SSH Terminal & Web Profile Editor", caption: "Simultaneous view of the AAA web administration profile editor and root SSH console verifying SQL socket release and Access-Accept packets." },
-                { url: "1533518498275.JPEG", title: "3. RADIUS Manager Web Portal — SQL Database Backups", caption: "Administration dashboard showing the automated timestamped SQL database backup module for vouchers, billing, and accounting." },
-                { url: "VID_20190527_143405.mp4", isVideo: true, title: "4. Video Demo: Interactive Digital Signage & Wi-Fi Voucher Kiosk", caption: "Live video demonstration of the self-service touchscreen kiosk: entering mobile number, selecting data plan, inserting cash into bill acceptor, and printing thermal receipt with AAA credentials." }
+                { url: "IMG_20190503_153424.jpg", title: "1. FreeRADIUS & ChilliSpot Live AAA Packet Debugging (100 Mbps Bandwidth Policy)", caption: "Live Linux terminal output showing FreeRADIUS processing an Access-Accept response (ID 103 to NAS 10.70.24.21) with dynamic WISPr bandwidth attributes (WISPr-Bandwidth-Max-Up/Down := 104857600 bps / 100 Mbps, Idle-Timeout := 600s, Session-Timeout = 116930s) and ChilliSpot v1.3.0 Accounting-Request packets for user 'nerademo'." },
+                { url: "IMG_20190503_150911.jpg", title: "2. Custom AAA Server (root@AAA:/home/yaccess) & Web Profile Configuration", caption: "Simultaneous view of the web-based profile management portal (10.70.24.24/Main/proedit?profile=15min_test_new) and the PuTTY SSH root console (root@AAA:/home/yaccess) executing rlm_sql socket queries and dispatching Access-Accept and Accounting packets for voucher user '2ATF'." },
+                { url: "1533518498275.JPEG", title: "3. RADIUS Manager Automated SQL Database Backup Portal", caption: "Web administration interface (192.168.60.71/Main/configmngbackup) displaying scheduled and manual SQL database snapshots (backup-YYYYMMDD-HHMMSS.sql) with file size verification and one-click disaster recovery download controls." },
+                { url: "VID_20190527_143405.mp4", isVideo: true, title: "4. Interactive Touchscreen Digital Signage & Wi-Fi Vending Kiosk (Video Demo)", caption: "Live on-site video demonstration of the custom Linux-powered dual-function kiosk: the upper display runs continuous digital signage advertising (Leopard Connectivity Business Solutions, Viber, Skype) while the lower touchscreen interface guides users through mobile number entry, cash bill insertion (Php 20 / 50 / 100 via hardware bill acceptor), and automated thermal receipt/SMS voucher printing." }
               ],
               details: [
-                "Developed a custom Linux-based AAA system (FreeRADIUS + ChilliSpot + MySQL) managing captive portal authentication, bandwidth policies, and session accounting.",
-                "Engineered custom Linux OS builds and shell scripts for digital signage players with automated playback and remote content syncing.",
-                "Provided ongoing systems maintenance, OS patching, and level-3 escalation support."
+                "Developed and tuned a custom Linux-based AAA platform using FreeRADIUS, MySQL (rlm_sql), and ChilliSpot captive portals with dynamic WISPr bandwidth throttling and session timeouts.",
+                "Built a web-based AAA administration and automated SQL backup management portal for voucher/profile provisioning and disaster recovery.",
+                "Engineered custom Linux OS builds, hardware bill-acceptor/thermal-printer integrations, and shell scripts for dual-screen Digital Signage & Wi-Fi Vending Kiosks."
               ]
             }
           },
           { 
             title: "Public Sector Wi-Fi Monetization", 
-            description: "Key engineer on the Greenfield Wi-Fi Monetization Project and Wireless Access Point on Governance in Cavite Project, deploying robust network infrastructure and conducting client training.", 
-            techStack: ["Network Infrastructure", "Linux", "Integration"], 
+            description: "Key engineer on the Greenfield Wi-Fi Monetization Project and Wireless Access Point on Governance in Cavite Project, authoring the National WiFi Back-End Architecture and deploying municipal wireless infrastructure.", 
+            techStack: ["Network Architecture", "Linux", "High Availability", "Public Wi-Fi"], 
             link: "https://www.youtube.com/watch?v=qekn8EqhMLs", 
             secondaryLink: "https://www.rappler.com/technology/115782-cavite-free-wifi-service/",
+            secondaryLinkLabel: "Rappler News Article (Cavite Free Wi-Fi)",
             github: "https://github.com/AlVarias",
             article: {
               role: "Key Systems & Deployment Engineer",
+              overview: "Architected and deployed municipal and commercial public Wi-Fi infrastructure for the Governance in Cavite Wireless Access Point Project (featured in Rappler and on YouTube) and the Greenfield Wi-Fi Monetization rollout, connecting communities across dual geo-redundant data centers.",
               isPrivateCaseStudy: true,
-              externalLabel: "Watch Project Video on YouTube",
-              secondaryExternalLabel: "Read Rappler News Article (Cavite Free Wi-Fi)",
-              disclaimer: "DISCLAIMER: This is private enterprise stuff and only for portfolio examples and demonstration purposes.",
+              disclaimer: "This is private enterprise material and is shown strictly as portfolio examples. The FAST architectural diagram below belongs to this project.",
               images: [
-                { url: "IMG_20180824_175401.jpg", title: "1. FAST National WiFi Proposed Back-End Diagram", caption: "Official architectural blueprint designed and submitted by Allen Albert Varias (Systems Engineer) mapping the geo-redundant backend across QC and Makati data centers linked via continuous database mirroring." }
+                { url: "IMG_20180824_175401.jpg", title: "1. FAST (FilAsia System Technologies Inc.) National WiFi Proposed Back-End Diagram", caption: "Official architectural blueprint ('Submitted by: Allen Albert Varias, Systems Engineer' | 'Received by: Ryan Bulacan, Head - IT Department') illustrating the dual-site High Availability topology across the QC Data Center and Makati Data Center. Each site houses a dedicated AAA Server (AAA Server 1 & 2), primary Database Server, Backup Database Server, and dual load-balanced Web Servers (Web Server 1 & 2), interconnected via real-time cross-site Database Mirroring." }
               ],
               details: [
-                "Integrated indoor and outdoor wireless access points, switching gear, and Linux backend management servers.",
-                "Configured network redundancy, user onboarding portals, and centralized monitoring.",
-                "Conducted formal product orientations and technical training for client IT teams and partners."
+                "Authored the official 'National WiFi Proposed Back End Diagram' for FilAsia System Technologies Inc. (FAST), designing active/standby geo-redundancy across the Quezon City (QC) and Makati Data Centers.",
+                "Integrated indoor and outdoor wireless access points, PoE switching gear, and Linux backend AAA/database servers for the Cavite Free Public Wi-Fi rollout.",
+                "Configured cross-site database mirroring, captive portal onboarding, and centralized monitoring.",
+                "Conducted formal product orientations and technical training for local government IT teams and partners."
               ]
             }
           }
@@ -264,7 +276,7 @@
             role: "Pharmacy Assistant - Supervisor", 
             company: "Chemist Warehouse - Sylvia Park", 
             companyUrl: "https://www.chemistwarehouse.co.nz/competitions", 
-            period: "May 2024 - Aug 2026 (Acting 2IC: Oct 2025 – Dec 2025)", 
+            period: "May 2024 - Aug 2026", 
             achievements: [
               "Assisting customers with general queries.",
               "Replenishing stock and maintaining inventory levels.",
@@ -278,12 +290,12 @@
           },
           { 
             role: "Volunteer Production Team (Graphics Operator)", 
-            company: "City Impact Church", 
+            company: "City Impact Church (Great South Road) - Auckland, NZ", 
             companyUrl: "https://cityimpactchurch.com/visit-us/", 
             period: "2025 - Present", 
             achievements: [
-              "Operated live visual and graphics systems during high-attendance weekly events.", 
-              "Collaborated with a multi-disciplinary technical team under strict live-production deadlines.", 
+              "Operated live visual and graphics systems during high-attendance weekly events.",
+              "Collaborated with a multi-disciplinary technical team under strict live-production deadlines.",
               "Troubleshot hardware and software issues on the fly to ensure seamless service continuity."
             ] 
           },
@@ -360,34 +372,31 @@
         const INTERESTS = [
           { title: "Love & Luto", description: "Exploring culinary passions, preparing authentic dishes, and discovering new flavors.", icon: <UtensilsIcon className="w-6 h-6 text-orange-400" />, link: "https://alvarias.github.io/love-and-luto/" },
           { title: "City Impact Church (GSR)", description: "Serving actively as a volunteer on the production team, handling live graphics and visuals.", icon: <HeartIcon className="w-6 h-6 text-rose-400" />, link: "https://cityimpactchurch.com/location/great-south-road/" },
-          { title: "Home Lab & Gaming", description: "Experimenting with Proxmox, Docker, retro gaming, PC gaming, and PS4 gaming.", icon: <GamepadIcon className="w-6 h-6 text-blue-400" /> },
-          { title: "EDC & Tech Gadgets", description: "Researching everyday carry items, pocket knives, and cutting-edge tech gadgets.", icon: <CpuIcon className="w-6 h-6 text-emerald-400" /> },
-          { title: "Cars & Overlanding", description: "Passionate about JDM cars and rugged Overlanding SUVs for off-road adventures.", icon: <GlobeIcon className="w-6 h-6 text-yellow-400" /> },
-          { title: "Series, Movies & Walks", description: "Watching gripping series and movies, and spending quality walking time in parks with my love.", icon: <HeartIcon className="w-6 h-6 text-rose-400" /> },
-          { title: "Fascinating Facts & Conspiracies", description: "Exploring interesting facts, conspiracy theories, and everything under the sun.", icon: <TerminalIcon className="w-6 h-6 text-purple-400" /> }
+          { title: "Retro, Laptop & PS4 Gaming", description: "Enjoying retro classics, gaming on my laptop, and playing console titles on PS4.", icon: <GamepadIcon className="w-6 h-6 text-indigo-400" /> },
+          { title: "EDC, Pocket Knives & Tech Gadgets", description: "Love researching everyday carry (EDC) gear, pocket knives, and the latest tech gadgets.", icon: <CpuIcon className="w-6 h-6 text-emerald-400" /> },
+          { title: "JDM Cars & Overlanding SUVs", description: "Deep appreciation for automotive culture, specially JDM cars and rugged Overlanding SUVs.", icon: <CarIcon className="w-6 h-6 text-amber-400" /> },
+          { title: "Series & Movies", description: "Unwinding with great storytelling by watching favorite TV series and movies.", icon: <FilmIcon className="w-6 h-6 text-purple-400" /> },
+          { title: "Park Walks with My Love", description: "Spending quality time walking through scenic parks and nature trails with my love.", icon: <HeartIcon className="w-6 h-6 text-pink-400" /> },
+          { title: "Facts, Conspiracies & Everything Under the Sun", description: "Diving deep into interesting facts, conspiracy theories, and exploring everything under the sun.", icon: <GlobeIcon className="w-6 h-6 text-cyan-400" /> },
+          { title: "Home Lab Building", description: "Experimenting with Proxmox, Docker, and self-hosted services in my personal server rack.", icon: <ServerIcon className="w-6 h-6 text-blue-400" /> }
         ];
 
+        // --- COMPONENTS ---
         const App = () => {
           const [isMenuOpen, setIsMenuOpen] = useState(false);
           const [activeSection, setActiveSection] = useState('home');
           const [imageFailed, setImageFailed] = useState(false);
 
-          // Hero CMD / Terminal Typing Effect States
-          const fullCmd = "C:\\Users\\Allen> init_portfolio.exe --profile";
-          const fullGreeting = "Hi, my name is";
-          const fullName = PERSONAL_INFO.name;
-          const fullTitle = PERSONAL_INFO.title;
-          const fullBio = `${PERSONAL_INFO.subtitle} ${PERSONAL_INFO.about.split('.')[0]}.`;
+          // Project Article Modal State
+          const [selectedProject, setSelectedProject] = useState(null);
 
+          // CMD Typewriter Effect State for Hero Section
           const [typedCmd, setTypedCmd] = useState('');
           const [typedGreeting, setTypedGreeting] = useState('');
           const [typedName, setTypedName] = useState('');
           const [typedTitle, setTypedTitle] = useState('');
           const [typedBio, setTypedBio] = useState('');
-          const [typingStep, setTypingStep] = useState(0);
-
-          // Project Article Modal State
-          const [selectedProject, setSelectedProject] = useState(null);
+          const [typingStage, setTypingStage] = useState(0);
 
           // Gemini API States
           const [isJobFitModalOpen, setIsJobFitModalOpen] = useState(false);
@@ -397,50 +406,61 @@
           const [apiError, setApiError] = useState('');
 
           useEffect(() => {
-            let timeout;
-            if (typingStep === 0) {
-              if (typedCmd.length < fullCmd.length) {
-                timeout = setTimeout(() => {
-                  setTypedCmd(fullCmd.slice(0, typedCmd.length + 1));
-                }, 25);
-              } else {
-                timeout = setTimeout(() => setTypingStep(1), 250);
+            const cmdText = "C:\\Users\\Allen> init_portfolio.exe --profile";
+            const greetingText = "Hi, my name is";
+            const nameText = PERSONAL_INFO.name;
+            const titleText = PERSONAL_INFO.title;
+            const bioText = `${PERSONAL_INFO.subtitle} ${PERSONAL_INFO.about.split('.')[0]}.`;
+
+            let isCancelled = false;
+            const sleep = (ms) => new Promise(r => setTimeout(r, ms));
+
+            const runTypewriter = async () => {
+              await sleep(250);
+              for (let i = 1; i <= cmdText.length; i++) {
+                if (isCancelled) return;
+                setTypedCmd(cmdText.slice(0, i));
+                await sleep(22);
               }
-            } else if (typingStep === 1) {
-              if (typedGreeting.length < fullGreeting.length) {
-                timeout = setTimeout(() => {
-                  setTypedGreeting(fullGreeting.slice(0, typedGreeting.length + 1));
-                }, 35);
-              } else {
-                timeout = setTimeout(() => setTypingStep(2), 150);
+              await sleep(250);
+              setTypingStage(1);
+
+              for (let i = 1; i <= greetingText.length; i++) {
+                if (isCancelled) return;
+                setTypedGreeting(greetingText.slice(0, i));
+                await sleep(30);
               }
-            } else if (typingStep === 2) {
-              if (typedName.length < fullName.length) {
-                timeout = setTimeout(() => {
-                  setTypedName(fullName.slice(0, typedName.length + 1));
-                }, 45);
-              } else {
-                timeout = setTimeout(() => setTypingStep(3), 180);
+              await sleep(150);
+              setTypingStage(2);
+
+              for (let i = 1; i <= nameText.length; i++) {
+                if (isCancelled) return;
+                setTypedName(nameText.slice(0, i));
+                await sleep(45);
               }
-            } else if (typingStep === 3) {
-              if (typedTitle.length < fullTitle.length) {
-                timeout = setTimeout(() => {
-                  setTypedTitle(fullTitle.slice(0, typedTitle.length + 1));
-                }, 45);
-              } else {
-                timeout = setTimeout(() => setTypingStep(4), 180);
+              await sleep(180);
+              setTypingStage(3);
+
+              for (let i = 1; i <= titleText.length; i++) {
+                if (isCancelled) return;
+                setTypedTitle(titleText.slice(0, i));
+                await sleep(45);
               }
-            } else if (typingStep === 4) {
-              if (typedBio.length < fullBio.length) {
-                timeout = setTimeout(() => {
-                  setTypedBio(fullBio.slice(0, typedBio.length + 2));
-                }, 12);
-              } else {
-                setTypingStep(5);
+              await sleep(180);
+              setTypingStage(4);
+
+              for (let i = 1; i <= bioText.length; i += 2) {
+                if (isCancelled) return;
+                setTypedBio(bioText.slice(0, i));
+                await sleep(14);
               }
-            }
-            return () => clearTimeout(timeout);
-          }, [typingStep, typedCmd, typedGreeting, typedName, typedTitle, typedBio]);
+              setTypedBio(bioText);
+              setTypingStage(5);
+            };
+
+            runTypewriter();
+            return () => { isCancelled = true; };
+          }, []);
 
           useEffect(() => {
             const handleScroll = () => {
@@ -580,50 +600,43 @@
               </nav>
 
               <main className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pt-16">
-                {}
                 <section id="home" className="min-h-[90vh] flex flex-col justify-center py-20">
                   <div className="flex flex-col-reverse md:flex-row items-center justify-between gap-12">
                     <div className="space-y-6 max-w-3xl flex-1">
-                      {/* CMD Prompt Header */}
-                      <div className="inline-flex items-center gap-2 bg-slate-950/90 border border-slate-800 px-3.5 py-1.5 rounded-lg font-mono text-xs sm:text-sm text-emerald-400 shadow-inner">
-                        <TerminalIcon className="w-4 h-4 text-blue-400 shrink-0" />
+                      {/* CMD Prompt Line */}
+                      <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-lg bg-slate-950/90 border border-slate-800 font-mono text-xs sm:text-sm text-emerald-400 shadow-inner">
+                        <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
                         <span>{typedCmd}</span>
-                        {typingStep === 0 && <span className="inline-block w-2 h-4 bg-emerald-400 cursor-blink align-middle"></span>}
+                        {typingStage === 0 && <span className="inline-block w-2 h-4 bg-emerald-400 cursor-blink align-middle"></span>}
                       </div>
 
                       <p className="text-blue-400 font-mono text-lg min-h-[1.75rem]">
                         {typedGreeting}
-                        {typingStep === 1 && <span className="inline-block w-2.5 h-5 bg-blue-400 ml-1 cursor-blink align-middle"></span>}
+                        {typingStage === 1 && <span className="inline-block w-2.5 h-5 bg-blue-400 ml-1 cursor-blink align-middle"></span>}
                       </p>
 
                       <h1 className="text-5xl sm:text-7xl font-bold text-slate-100 tracking-tight min-h-[3.5rem] sm:min-h-[4.5rem]">
                         {typedName}
-                        {typingStep === 2 && <span className="inline-block w-3 sm:w-4 h-10 sm:h-14 bg-blue-400 ml-1.5 cursor-blink align-middle"></span>}
+                        {typingStage === 2 && <span className="inline-block w-4 h-10 sm:h-14 bg-slate-100 ml-1.5 cursor-blink align-middle"></span>}
                       </h1>
 
                       <h2 className="text-4xl sm:text-6xl font-bold text-slate-400 tracking-tight min-h-[2.75rem] sm:min-h-[3.75rem]">
                         {typedTitle}
-                        {typingStep === 3 && <span className="inline-block w-3 sm:w-4 h-8 sm:h-12 bg-slate-400 ml-1.5 cursor-blink align-middle"></span>}
+                        {typingStage === 3 && <span className="inline-block w-3.5 h-8 sm:h-12 bg-blue-400 ml-1.5 cursor-blink align-middle"></span>}
                       </h2>
 
                       <p className="text-lg text-slate-400 leading-relaxed max-w-2xl pt-4 font-mono sm:font-sans min-h-[4.5rem]">
                         {typedBio}
-                        {(typingStep === 4 || typingStep === 5) && (
-                          <span className="inline-block w-2.5 h-5 bg-emerald-400 ml-1.5 cursor-blink align-middle"></span>
-                        )}
+                        {typingStage >= 4 && <span className="inline-block w-2.5 h-5 bg-emerald-400 ml-1.5 cursor-blink align-middle"></span>}
                       </p>
 
-                      {/* Proverbs 25:2 Verse Callout */}
-                      <div className="pt-2 max-w-xl">
-                        <blockquote className="border-l-2 border-blue-500/60 pl-4 py-1 italic text-slate-300/90 text-sm sm:text-base bg-slate-800/20 rounded-r-lg">
-                          "It is the glory of God to conceal a matter; to search out a matter is the glory of kings."
-                          <footer className="text-blue-400 font-mono text-xs not-italic mt-1 font-semibold tracking-wider uppercase">
-                            — Proverbs 25:2
-                          </footer>
-                        </blockquote>
-                      </div>
+                      {/* Proverbs 25:2 Quote */}
+                      <blockquote className="border-l-2 border-blue-500/60 pl-4 py-1 my-2 text-slate-400/90 italic text-sm sm:text-base max-w-xl bg-slate-800/20 rounded-r-lg">
+                        {PERSONAL_INFO.verseText}
+                        <span className="block not-italic font-mono text-xs text-blue-400 mt-1">— {PERSONAL_INFO.verseRef}</span>
+                      </blockquote>
 
-                      <div className="flex flex-wrap gap-4 pt-6">
+                      <div className="flex flex-wrap gap-4 pt-4">
                         <button onClick={() => scrollTo('projects')} className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg font-medium transition-colors flex items-center gap-2">
                           View Projects <ChevronRightIcon className="w-4 h-4" />
                         </button>
@@ -701,7 +714,15 @@
                           <div className="flex gap-4" onClick={(e) => e.stopPropagation()}>
                             <a href={project.github} target="_blank" rel="noopener noreferrer" className="text-slate-400 hover:text-white transition-colors" title="GitHub"><GithubIcon className="w-5 h-5" /></a>
                             {project.secondaryLink && (
-                              <a href={project.secondaryLink} target="_blank" rel="noopener noreferrer" className="text-slate-400 hover:text-emerald-400 transition-colors" title={project.article?.secondaryExternalLabel || "Read News Article"}><GlobeIcon className="w-5 h-5" /></a>
+                              <a 
+                                href={project.secondaryLink}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="text-slate-400 hover:text-emerald-400 transition-colors"
+                                title={project.secondaryLinkLabel || "News Article"}
+                              >
+                                <GlobeIcon className="w-5 h-5" />
+                              </a>
                             )}
                             <a 
                               href={project.link} 
@@ -745,8 +766,8 @@
                             <div className="absolute -left-[37px] md:-left-5 top-1.5 w-3 h-3 bg-blue-500 rounded-full border-4 border-slate-900"></div>
                             <h3 className="text-xl font-bold text-slate-200">{exp.role}</h3>
                             <h4 className="text-lg text-blue-400 mb-4">
-                              <a href={exp.companyUrl} target="_blank" rel="noopener noreferrer" className="hover:underline inline-flex items-center gap-1.5 text-blue-400 hover:text-blue-300">
-                                {exp.company} <ExternalLinkIcon className="w-4 h-4" />
+                              <a href={exp.companyUrl} target="_blank" rel="noopener noreferrer" className="hover:underline inline-flex items-center gap-1.5 text-blue-400 hover:text-blue-300 transition-colors">
+                                {exp.company} <ExternalLinkIcon className="w-4 h-4 inline" />
                               </a>
                             </h4>
                             <ul className="space-y-3">
@@ -768,10 +789,11 @@
                   </div>
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                     {EDUCATION.map((edu, idx) => (
-                      <a key={idx} href={edu.schoolUrl} target="_blank" rel="noopener noreferrer" className="bg-slate-800/30 rounded-2xl p-8 border border-slate-700/50 hover:border-blue-500/50 transition-all group block">
+                      <a key={idx} href={edu.schoolUrl} target="_blank" rel="noopener noreferrer" className="bg-slate-800/30 rounded-2xl p-8 border border-slate-700/50 hover:border-blue-500/30 transition-all duration-300 hover:-translate-y-1 block group">
                         <h3 className="text-2xl font-bold text-slate-200 mb-2 group-hover:text-blue-400 transition-colors">{edu.degree}</h3>
-                        <h4 className="text-lg text-blue-400 mb-4 flex items-center gap-1.5">
-                          {edu.school} <ExternalLinkIcon className="w-4 h-4 text-slate-400 group-hover:text-blue-400" />
+                        <h4 className="text-lg text-blue-400 mb-4 flex items-center gap-2">
+                          <span>{edu.school}</span>
+                          <ExternalLinkIcon className="w-4 h-4 text-slate-400 group-hover:text-blue-400 transition-colors" />
                         </h4>
                         <div className="inline-block px-3 py-1 bg-slate-800 rounded-full text-slate-300 font-mono text-sm mb-4">{edu.period}</div>
                         <p className="text-slate-400 flex items-start gap-2"><ChevronRightIcon className="w-5 h-5 text-emerald-500 shrink-0 mt-0.5" />{edu.details}</p>
@@ -834,8 +856,8 @@
 
               <footer className="py-8 text-center text-slate-500 border-t border-slate-800">
                 <div className="flex justify-center gap-6 mb-4">
-                  <a href={PERSONAL_INFO.github} target="_blank" rel="noopener noreferrer" className="hover:text-blue-400 transition-colors"><GithubIcon className="w-5 h-5" /></a>
-                  <a href={PERSONAL_INFO.linkedin} target="_blank" rel="noopener noreferrer" className="hover:text-blue-400 transition-colors"><LinkedinIcon className="w-5 h-5" /></a>
+                  <a href={PERSONAL_INFO.github} className="hover:text-blue-400 transition-colors"><GithubIcon className="w-5 h-5" /></a>
+                  <a href={PERSONAL_INFO.linkedin} className="hover:text-blue-400 transition-colors"><LinkedinIcon className="w-5 h-5" /></a>
                   <a href={`mailto:${PERSONAL_INFO.email}`} className="hover:text-blue-400 transition-colors"><MailIcon className="w-5 h-5" /></a>
                 </div>
                 <p className="text-sm font-mono">Designed and built for Allen Albert T. Varias</p>
@@ -861,13 +883,14 @@
                       </div>
                       <button onClick={() => setSelectedProject(null)} className="text-slate-400 hover:text-white transition-colors"><XIcon className="w-6 h-6" /></button>
                     </div>
+
                     <div className="p-6 overflow-y-auto flex-1 space-y-6">
                       {/* Private Disclaimer */}
                       {selectedProject.article?.isPrivateCaseStudy && (
                         <div className="bg-amber-500/10 border border-amber-500/30 rounded-xl p-4 flex items-start gap-3 text-amber-300 text-sm">
                           <ShieldAlertIcon className="w-5 h-5 shrink-0 mt-0.5 text-amber-400" />
                           <div>
-                            <span className="font-bold">Private Material Notice:</span> {selectedProject.article.disclaimer}
+                            <span className="font-bold">Disclaimer:</span> {selectedProject.article.disclaimer}
                           </div>
                         </div>
                       )}
@@ -883,171 +906,62 @@
                         <p className="text-slate-300 leading-relaxed">{selectedProject.article?.overview || selectedProject.description}</p>
                       </div>
 
-                      {/* Enhanced NFC & QR Physical Business Card Design Showcase */}
-                      {selectedProject.title === "Personal Portfolio & Digital Card" && (
-                        <div className="space-y-4 pt-4 border-t border-slate-800">
-                          <div className="flex items-center justify-between flex-wrap gap-2">
-                            <h4 className="text-xl font-bold text-slate-100">Enhanced NFC & QR Business Card Design</h4>
-                            <span className="text-xs font-mono text-emerald-400 bg-emerald-500/10 px-3 py-1 rounded-full border border-emerald-500/20">
-                              Matte Black Metal / PVC Edition
-                            </span>
-                          </div>
-                          <p className="text-sm text-slate-400">
-                            Enhanced front-and-back NFC smart business card featuring a brushed metallic emblem, streamlined <strong className="text-slate-200">SYSTEMS ENGINEER</strong> title, scannable QR code to <code className="text-blue-400">alvarias.github.io/links</code>, and <strong className="text-slate-200">Proverbs 25:2</strong>.
-                          </p>
-
-                          {/* Interactive Dual Card Preview */}
-                          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 pt-2">
-                            {/* FRONT OF CARD */}
-                            <div className="relative aspect-[1.586/1] w-full rounded-2xl bg-gradient-to-br from-neutral-900 via-neutral-950 to-black border border-slate-700/80 shadow-2xl p-6 flex flex-col items-center justify-between overflow-hidden group">
-                              {/* Subtle brushed metallic sheen & ambient glow */}
-                              <div className="absolute -top-20 -left-20 w-52 h-52 bg-blue-500/10 rounded-full blur-3xl pointer-events-none"></div>
-                              <div className="absolute -bottom-20 -right-20 w-52 h-52 bg-slate-400/5 rounded-full blur-3xl pointer-events-none"></div>
-                              <div className="text-[10px] font-mono uppercase tracking-widest text-slate-500 self-start">Front Side</div>
-
-                              {/* NFC Icon Top Center */}
-                              <div className="flex items-center gap-1 text-slate-300/90 text-xs font-semibold tracking-widest -mt-3">
-                                <span>NFC</span>
-                                <svg className="w-4 h-4 text-blue-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
-                                  <path d="M6 8.32a7.43 7.43 0 0 1 0 7.36" />
-                                  <path d="M9.46 6.21a11.76 11.76 0 0 1 0 11.58" />
-                                  <path d="M12.91 4.1a15.91 15.91 0 0 1 .01 15.8" />
-                                </svg>
-                              </div>
-
-                              {/* Metallic AV Monogram Logo (Image with SVG Metallic Fallback) */}
-                              <div className="my-auto flex items-center justify-center py-1">
-                                <svg className="w-36 sm:w-44 h-24 sm:h-28 drop-shadow-[0_6px_16px_rgba(59,130,246,0.25)]" viewBox="0 0 240 140" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                  <defs>
-                                    <linearGradient id="brushedBlue" x1="0%" y1="0%" x2="100%" y2="100%">
-                                      <stop offset="0%" stopColor="#60a5fa" />
-                                      <stop offset="45%" stopColor="#2563eb" />
-                                      <stop offset="100%" stopColor="#1e3a8a" />
-                                    </linearGradient>
-                                    <linearGradient id="brushedSilver" x1="0%" y1="0%" x2="100%" y2="100%">
-                                      <stop offset="0%" stopColor="#ffffff" />
-                                      <stop offset="50%" stopColor="#cbd5e1" />
-                                      <stop offset="100%" stopColor="#64748b" />
-                                    </linearGradient>
-                                  </defs>
-                                  {/* Stylized 'A' */}
-                                  <path d="M35 122 L82 22 C85 16 92 16 95 22 L135 122 L112 122 L88 58 L60 122 Z" fill="url(#brushedBlue)" />
-                                  {/* Dynamic Swoosh Crossbar & 'V' */}
-                                  <path d="M58 92 L215 14 L158 120 C154 127 146 127 142 120 L122 80 L138 70 L150 96 L182 38 L58 98 Z" fill="url(#brushedSilver)" />
-                                </svg>
-                              </div>
-
-                              {/* Name & Clean Title */}
-                              <div className="text-center space-y-1 z-10 w-full">
-                                <div className="text-base sm:text-xl font-bold tracking-[0.14em] bg-gradient-to-r from-white via-slate-200 to-slate-400 bg-clip-text text-transparent uppercase">
-                                  ALLEN ALBERT T. VARIAS
-                                </div>
-                                <div className="text-[11px] sm:text-xs font-mono tracking-[0.28em] text-blue-400 font-semibold uppercase">
-                                  SYSTEMS ENGINEER
-                                </div>
-                              </div>
-                            </div>
-
-                            {/* BACK OF CARD */}
-                            <div className="relative aspect-[1.586/1] w-full rounded-2xl bg-gradient-to-br from-neutral-900 via-neutral-950 to-black border border-slate-700/80 shadow-2xl p-6 flex flex-col items-center justify-between overflow-hidden">
-                              <div className="absolute -top-20 -right-20 w-52 h-52 bg-blue-500/10 rounded-full blur-3xl pointer-events-none"></div>
-                              <div className="w-full flex items-center justify-between">
-                                <span className="text-[10px] font-mono uppercase tracking-widest text-slate-500">Back Side</span>
-                                <span className="text-[10px] font-mono tracking-[0.22em] text-slate-300 font-bold uppercase">SCAN THIS</span>
-                              </div>
-
-                              {/* Crisp Scannable QR Code pointing to https://alvarias.github.io/links/ */}
-                              <div className="my-auto flex flex-col items-center">
-                                <div className="bg-white p-2.5 rounded-xl shadow-[0_0_25px_rgba(255,255,255,0.12)] border border-slate-300">
-                                  <img 
-                                    src="https://api.qrserver.com/v1/create-qr-code/?size=160x160&margin=0&data=https://alvarias.github.io/links/" 
-                                    alt="QR Code to Allen Varias Digital Card" 
-                                    className="w-24 h-24 sm:w-28 sm:h-28 object-contain"
-                                  />
-                                </div>
-                                <span className="text-[10px] font-mono tracking-[0.2em] text-slate-300 mt-2 uppercase font-semibold">
-                                  ALLEN ALBERT T. VARIAS
-                                </span>
-                              </div>
-
-                              {/* Proverbs 25:2 Scripture Engraving */}
-                              <div className="text-center max-w-xs border-t border-slate-800/90 pt-2.5 z-10">
-                                <p className="text-[10px] sm:text-[11px] italic text-slate-300/95 leading-snug font-serif">
-                                  "It is the glory of God to conceal a matter; to search out a matter is the glory of kings."
-                                </p>
-                                <p className="text-[9px] font-mono tracking-[0.22em] text-blue-400 uppercase mt-0.5 font-semibold">
-                                  — Proverbs 25:2
-                                </p>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      )}
-
+                      {/* Sub-Projects Showcase (Personal Portfolio & Digital Card) */}
                       {selectedProject.article?.subProjects && (
                         <div className="space-y-6 pt-4 border-t border-slate-800">
-                          <div className="flex items-center justify-between">
+                          <div>
                             <h4 className="text-xl font-bold text-slate-100">Featured Web Applications & Live Previews</h4>
-                            <span className="text-xs font-mono text-blue-400 bg-blue-500/10 px-3 py-1 rounded-full border border-blue-500/20">
-                              {selectedProject.article.subProjects.length} Live Sites
-                            </span>
+                            <p className="text-sm text-slate-400 mt-1">Interactive previews and descriptions of custom web apps designed and built by Allen Albert T. Varias:</p>
                           </div>
                           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                            {selectedProject.article.subProjects.map((sub, idx) => (
-                              <div key={idx} className="bg-slate-800/50 border border-slate-700/80 rounded-xl overflow-hidden flex flex-col hover:border-blue-500/50 transition-all shadow-lg">
-                                {/* Browser Preview Bar */}
+                            {selectedProject.article.subProjects.map((sub, i) => (
+                              <div key={i} className="bg-slate-800/40 border border-slate-700/70 rounded-xl overflow-hidden flex flex-col hover:border-blue-500/50 transition-all">
                                 <div className="bg-slate-950 px-3 py-2 border-b border-slate-800 flex items-center justify-between gap-2">
                                   <div className="flex items-center gap-1.5">
-                                    <span className="w-2.5 h-2.5 rounded-full bg-red-500/80"></span>
-                                    <span className="w-2.5 h-2.5 rounded-full bg-amber-500/80"></span>
-                                    <span className="w-2.5 h-2.5 rounded-full bg-emerald-500/80"></span>
+                                    <span className="w-2.5 h-2.5 rounded-full bg-red-500/70"></span>
+                                    <span className="w-2.5 h-2.5 rounded-full bg-amber-500/70"></span>
+                                    <span className="w-2.5 h-2.5 rounded-full bg-emerald-500/70"></span>
                                   </div>
-                                  <span className="text-[11px] font-mono text-slate-400 truncate max-w-[200px]">{sub.url}</span>
-                                  <a 
-                                    href={sub.url} 
-                                    target="_blank" 
-                                    rel="noopener noreferrer" 
-                                    className="text-blue-400 hover:text-blue-300 p-1"
-                                    title={`Open ${sub.title} in new tab`}
-                                  >
+                                  <a href={sub.url} target="_blank" rel="noopener noreferrer" className="text-[11px] font-mono text-slate-400 hover:text-blue-400 truncate max-w-[200px]">
+                                    {sub.url.replace('https://', '')}
+                                  </a>
+                                  <a href={sub.url} target="_blank" rel="noopener noreferrer" className="text-slate-400 hover:text-white" title="Open in new tab">
                                     <ExternalLinkIcon className="w-3.5 h-3.5" />
                                   </a>
                                 </div>
-                                {/* Live Embedded Iframe Preview */}
-                                <div className="relative h-52 w-full bg-slate-950 overflow-hidden">
-                                  <iframe 
-                                    src={sub.url} 
+                                <div className="relative h-56 w-full bg-slate-950 overflow-hidden">
+                                  <iframe
+                                    src={sub.url}
                                     title={sub.title}
                                     className="w-[200%] h-[200%] origin-top-left scale-50 border-0 pointer-events-none"
                                     loading="lazy"
                                   />
-                                  <a 
-                                    href={sub.url} 
-                                    target="_blank" 
+                                  <a
+                                    href={sub.url}
+                                    target="_blank"
                                     rel="noopener noreferrer"
-                                    className="absolute inset-0 bg-slate-950/10 hover:bg-slate-950/40 transition-colors flex items-center justify-center group/overlay"
+                                    className="absolute inset-0 bg-slate-950/10 hover:bg-slate-950/40 transition-colors flex items-center justify-center group"
                                   >
-                                    <span className="opacity-0 group-hover/overlay:opacity-100 transition-opacity bg-blue-600 text-white text-xs font-medium px-3 py-1.5 rounded-lg shadow-lg flex items-center gap-1.5">
-                                      Interact with Live Site <ExternalLinkIcon className="w-3.5 h-3.5" />
+                                    <span className="opacity-0 group-hover:opacity-100 transition-opacity bg-blue-600 text-white text-xs font-medium px-3 py-1.5 rounded-lg shadow-lg flex items-center gap-1.5">
+                                      Launch Live Preview <ExternalLinkIcon className="w-3.5 h-3.5" />
                                     </span>
                                   </a>
                                 </div>
-                                {/* Description & Action */}
                                 <div className="p-4 flex-1 flex flex-col justify-between space-y-3">
                                   <div>
                                     <div className="flex items-center justify-between gap-2 mb-1">
-                                      <h5 className="text-lg font-bold text-slate-100">{sub.title}</h5>
-                                      <span className="text-[10px] font-mono text-emerald-400 bg-emerald-400/10 px-2 py-0.5 rounded-full">{sub.tag}</span>
+                                      <h5 className="font-bold text-slate-100 text-base">{sub.title}</h5>
+                                      <span className="text-[10px] font-mono text-emerald-400 bg-emerald-400/10 px-2 py-0.5 rounded-full shrink-0">{sub.tag}</span>
                                     </div>
-                                    <p className="text-sm text-slate-300 leading-relaxed">{sub.description}</p>
+                                    <p className="text-xs sm:text-sm text-slate-300 leading-relaxed">{sub.description}</p>
                                   </div>
-                                  <a 
-                                    href={sub.url} 
-                                    target="_blank" 
-                                    rel="noopener noreferrer" 
-                                    className="inline-flex items-center justify-center gap-2 w-full bg-slate-900 hover:bg-blue-600 text-blue-400 hover:text-white border border-slate-700 hover:border-blue-500 px-3 py-2 rounded-lg text-xs font-medium transition-colors"
+                                  <a
+                                    href={sub.url}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="inline-flex items-center gap-1.5 text-xs font-mono text-blue-400 hover:text-blue-300 pt-1"
                                   >
-                                    <GlobeIcon className="w-3.5 h-3.5" /> Visit {sub.title}
+                                    Visit {sub.url.replace('https://', '')} <ExternalLinkIcon className="w-3.5 h-3.5" />
                                   </a>
                                 </div>
                               </div>
@@ -1056,22 +970,25 @@
                         </div>
                       )}
 
-                      {/* Image Gallery & Explanation Section */}
+                      {/* Image & Video Gallery & Explanation Section */}
                       {selectedProject.article?.images && (
                         <div className="space-y-8 pt-4 border-t border-slate-800">
-                          <h4 className="text-xl font-bold text-slate-100">Project Diagrams & Technical Screenshots</h4>
+                          <h4 className="text-xl font-bold text-slate-100">Project Diagrams, Photos & Technical Breakdown</h4>
                           <div className="grid grid-cols-1 gap-8">
                             {selectedProject.article.images.map((img, index) => (
                               <div key={index} className="bg-slate-800/40 border border-slate-700/60 rounded-xl p-4 sm:p-6 space-y-4">
-                                <h5 className="text-md font-semibold text-blue-400">{img.title}</h5>
+                                <div className="flex flex-wrap items-center justify-between gap-2">
+                                  <h5 className="text-base sm:text-lg font-semibold text-blue-400">{img.title}</h5>
+                                  <span className="text-xs font-mono text-slate-500">{img.url}</span>
+                                </div>
                                 <div className="rounded-lg overflow-hidden border border-slate-700 bg-slate-950 flex items-center justify-center p-2">
                                   {img.isVideo ? (
-                                    <video src={img.url} controls className="max-h-[450px] w-auto rounded shadow-lg" />
+                                    <video src={img.url} controls className="max-h-[480px] w-full object-contain rounded" />
                                   ) : (
                                     <img src={img.url} alt={img.title} className="max-h-[450px] w-auto object-contain rounded" />
                                   )}
                                 </div>
-                                <p className="text-sm text-slate-300 leading-relaxed bg-slate-900/60 p-3 rounded-lg border border-slate-800">
+                                <p className="text-sm text-slate-300 leading-relaxed bg-slate-900/60 p-3.5 rounded-lg border border-slate-800">
                                   <span className="font-bold text-emerald-400">Technical Breakdown: </span>{img.caption}
                                 </p>
                               </div>
@@ -1095,20 +1012,20 @@
                       )}
 
                       <div className="flex flex-wrap items-center justify-between gap-4 pt-6 border-t border-slate-800">
-                        <div className="flex gap-3">
+                        <div className="flex flex-wrap gap-3">
                           {selectedProject.github && (
                             <a href={selectedProject.github} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 px-4 py-2 rounded-lg text-sm font-medium transition-colors">
                               <GithubIcon className="w-4 h-4" /> GitHub
                             </a>
                           )}
-                          {selectedProject.secondaryLink && (
-                            <a href={selectedProject.secondaryLink} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 bg-emerald-600 hover:bg-emerald-700 text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors">
-                              <GlobeIcon className="w-4 h-4" /> {selectedProject.article?.secondaryExternalLabel || "Read News Article"}
-                            </a>
-                          )}
                           {selectedProject.link && selectedProject.link !== "#" && (
                             <a href={selectedProject.link} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors">
                               <ExternalLinkIcon className="w-4 h-4" /> Open Project Link
+                            </a>
+                          )}
+                          {selectedProject.secondaryLink && (
+                            <a href={selectedProject.secondaryLink} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 bg-emerald-600 hover:bg-emerald-700 text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors">
+                              <GlobeIcon className="w-4 h-4" /> {selectedProject.secondaryLinkLabel || "Read Article"}
                             </a>
                           )}
                         </div>
